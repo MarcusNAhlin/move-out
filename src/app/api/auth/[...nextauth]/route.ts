@@ -10,8 +10,9 @@ const handler = NextAuth({
             email: { label: "Email", type: "email", placeholder: "example@gmail.com" },
             password: { label: "Password", type: "password", placeholder: "********" }
             },
-            async authorize(credentials, req) {
 
+            // Authentication
+            async authorize(credentials, req) {
             const res = await fetch("/api/authenticate", {
                 method: 'POST',
                 body: JSON.stringify(credentials),
