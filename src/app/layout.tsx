@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import { theme } from "../../theme";
+import SessionWrapper from "@/components/SessionWrapper";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -27,6 +28,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    <SessionWrapper>
       <html lang="en">
         <head>
           <ColorSchemeScript />
@@ -34,18 +36,19 @@ export default function RootLayout({
           <meta
             name="viewport"
             content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"
-          />
+            />
         </head>
         <body className={`${geistSans.variable} ${geistMono.variable}`}>
           {/* <MantineProvider
             withNormalizeCSS
             theme={{ colorScheme: 'dark', }}
-          >{children}</MantineProvider> */}
+            >{children}</MantineProvider> */}
 
         <MantineProvider theme={theme} defaultColorScheme="dark">
           {children}
         </MantineProvider>
         </body>
       </html>
+    </SessionWrapper>
   );
 }
