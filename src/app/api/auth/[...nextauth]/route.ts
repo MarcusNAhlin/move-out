@@ -13,17 +13,14 @@ const handler = NextAuth({
 
             // Authentication
             async authorize(credentials, req) {
-            const res = await fetch("/api/authenticate", {
+            const res = await fetch(`${process.env.NEXTAUTH_URL}/api/authenticate`, {
                 method: 'POST',
                 body: JSON.stringify(credentials),
                 headers: { "Content-Type": "application/json" }
             })
-            const user = await res.json()
+            const auth = await res.json();
 
-            if (res.ok && user) {
-                return user
-            }
-            return null
+            return auth.ok
             }
         })
     ]
