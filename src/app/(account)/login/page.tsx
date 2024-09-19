@@ -4,9 +4,12 @@ import { Button, Group, PasswordInput, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function Login() {
     const router = useRouter();
+
+    const [loggingIn, setLoggingIn] = useState(false);
 
     const form = useForm({
         mode: 'uncontrolled',
@@ -21,6 +24,7 @@ export default function Login() {
         });
 
     async function handleFormSubmit(event:any) {
+        setLoggingIn(true);
         const { email, password } = form.getValues();
 
         try {
@@ -36,9 +40,11 @@ export default function Login() {
             }
 
             if (!response.ok) {
+                setLoggingIn(false);
                 throw new Error("Network response was not ok");
             }
         } catch (e) {
+            setLoggingIn(false);
             console.error("Login failed:", e);
         }
     }
@@ -68,7 +74,7 @@ export default function Login() {
                         {...form.getInputProps('password')}
                     />
                     <Group justify="flex-end" mt="md">
-                        <Button type="submit">Login</Button>
+                        <Button type="submit" loading={loggingIn}>Login</Button>
                     </Group>
                     <div
                     style={{
