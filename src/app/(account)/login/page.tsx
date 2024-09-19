@@ -29,15 +29,12 @@ export default function Login() {
 
         const { email, password } = form.getValues();
 
-        console.log(email, password);
-
         try {
             const response: any = await signIn("credentials", {
                 email,
                 password,
                 redirect: false,
             });
-            console.log({ response });
 
             if (!response?.error) {
                 router.push("/");
@@ -47,7 +44,6 @@ export default function Login() {
             if (!response.ok) {
                 throw new Error("Network response was not ok");
             }
-            console.log("Login Successful", response);
         } catch (e) {
             console.error("Login failed:", e);
         }
