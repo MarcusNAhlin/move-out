@@ -8,6 +8,7 @@ async function authenticate(req: NextRequest, res: NextResponse) {
     let authenticated = false;
 
     if (!email || !password) {
+        console.log("here");
         return NextResponse.json({ message: "Missing email or password!", error: true, status: 401, ok: false });
     }
 
@@ -17,7 +18,8 @@ async function authenticate(req: NextRequest, res: NextResponse) {
     });
 
     if (!authenticatedUser || !authenticatedUser.id) {
-        return NextResponse.json({ message: "No verified account found!", error: true, status: 401, ok: false });
+        console.log("here2");
+        return NextResponse.json({ message: "No account found!", error: true, status: 401, ok: false });
     }
 
     const hashedPassword = await prisma.user.findUnique({
@@ -33,6 +35,7 @@ async function authenticate(req: NextRequest, res: NextResponse) {
         return NextResponse.json({ message: "Authenticated!", error: false, status: 200, ok: true });
     }
 
+    console.log("here3");
     return NextResponse.json({ message: "Authentication failed!", error: true, status: 401, ok: false });
 }
 
