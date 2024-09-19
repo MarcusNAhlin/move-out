@@ -2,12 +2,10 @@
 
 import { Button, Group, PasswordInput, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 export default function Login() {
-    const [submittedValues, setSubmittedValues] = useState<typeof form.values | null>(null);
     const router = useRouter();
 
     const form = useForm({
@@ -23,10 +21,6 @@ export default function Login() {
         });
 
     async function handleFormSubmit(event:any) {
-        event?.preventDefault();
-
-        setSubmittedValues
-
         const { email, password } = form.getValues();
 
         try {
@@ -58,7 +52,7 @@ export default function Login() {
                 marginLeft: "auto",
                 marginRight: "auto",
             }}>
-                <form onSubmit={handleFormSubmit}>
+                <form onSubmit={form.onSubmit(handleFormSubmit)}>
                     <TextInput
                         label="Email"
                             id="email"
