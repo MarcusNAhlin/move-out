@@ -32,7 +32,15 @@ async function register(req: NextRequest, res: NextResponse) {
                 }
             });
 
-            return NextResponse.json({ message: "Registration successfull", error: false, status: 200, ok: true});
+            await prisma.verificationToken.create({
+                data: {
+                    userId: newUser.id,
+                    token: crypto.randomUUID(),
+                    expires: new Date(Date.now() + 1000 * 60 * 60 * 24) // 24 hours
+                }
+            });
+
+            return NextResponse.json({ message: "Registration successful", error: false, status: 200, ok: true});
         } catch (e) {
             return NextResponse.json({ message: "Registration failed!", error: true, status: 403, ok: false });
         }
