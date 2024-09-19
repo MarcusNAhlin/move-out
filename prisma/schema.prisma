@@ -21,9 +21,20 @@ model User {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   role      Role      @default(USER)
+  token     VerificationToken?
 }
 
 enum Role {
   USER
   ADMIN
+}
+
+model VerificationToken {
+  id        Int       @id @default(autoincrement())
+  userId    Int       @unique
+  token     String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  expires   DateTime
+  user      User      @relation(fields: [userId], references: [id])
 }
