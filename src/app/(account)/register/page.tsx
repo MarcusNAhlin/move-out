@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Group, PasswordInput, TextInput } from "@mantine/core";
+import { Alert, Button, Group, PasswordInput, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -8,6 +8,7 @@ import { useState } from "react";
 export default function Login() {
     const router = useRouter();
     const [isRegistering, setIsRegistering] = useState(false);
+    const [message, setMessage] = useState("");
 
     const form = useForm({
         mode: 'uncontrolled',
@@ -22,7 +23,7 @@ export default function Login() {
         },
         });
 
-    async function handleFormSubmit(event:any) {
+    async function handleFormSubmit() {
         setIsRegistering(true);
         const { email, password, passwordVerify } = form.getValues();
 
@@ -35,19 +36,20 @@ export default function Login() {
                 body: JSON.stringify({ email, password, passwordVerify }),
             });
 
-            if (!response.ok) {
-                setIsRegistering(false);
-                throw new Error("Network response was not ok");
+            const data = await response.json();
+
+            if (!data.ok) {
+                throw new Error(data.message);
             }
 
-            if (response.ok) {
+            if (data.ok) {
                 router.push("/login");
                 router.refresh();
             }
 
-        } catch (e) {
+        } catch (e: any) {
+            setMessage(e.message);
             setIsRegistering(false);
-            console.error("Registration failed:", e);
         }
     }
 
@@ -82,6 +84,11 @@ export default function Login() {
                         key={form.key('passwordVerify')}
                         {...form.getInputProps('passwordVerify')}
                     />
+                    {
+                        message ? <Alert variant="light" color="red">
+                            {message}
+                        </Alert> : <></>
+                    }
                     <Group justify="flex-end" mt="md">
                         <Button type="submit" loading={isRegistering}>Register</Button>
                     </Group>
