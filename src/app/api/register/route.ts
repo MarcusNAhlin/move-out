@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
+import generateToken from "@/lib/generateToken";
 const bcrypt = require("bcrypt");
 
 async function register(req: NextRequest, res: NextResponse) {
@@ -32,7 +33,7 @@ async function register(req: NextRequest, res: NextResponse) {
                 }
             });
 
-            let newToken = crypto.randomUUID();
+            let newToken = generateToken();
 
             await prisma.verificationToken.create({
                 data: {
