@@ -43,8 +43,6 @@ async function register(req: NextRequest, res: NextResponse) {
                 }
             });
 
-            console.log("here12");
-
             await fetch(`${process.env.NEXTAUTH_URL}/api/authenticate/token/sendMail`, {
                 method: 'POST',
                 headers: {

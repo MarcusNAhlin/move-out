@@ -22,7 +22,6 @@ export async function sendEmail(req: NextRequest, res: NextResponse) {
         });
 
         if (error) {
-            console.log(error);
             return Response.json({ error }, { status: 500 });
         }
 
