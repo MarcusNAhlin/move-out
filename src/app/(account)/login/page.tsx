@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Group, PasswordInput, TextInput } from "@mantine/core";
+import { Alert, Button, Group, PasswordInput, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -10,6 +10,7 @@ export default function Login() {
     const router = useRouter();
 
     const [loggingIn, setLoggingIn] = useState(false);
+    const [message, setMessage] = useState("");
 
     const form = useForm({
         mode: 'uncontrolled',
@@ -40,12 +41,11 @@ export default function Login() {
             }
 
             if (!response.ok) {
-                setLoggingIn(false);
-                throw new Error("Network response was not ok");
+                throw new Error(response.error);
             }
-        } catch (e) {
+        } catch (e: any) {
+            setMessage(e.message);
             setLoggingIn(false);
-            console.error("Login failed:", e);
         }
     }
 
@@ -73,6 +73,11 @@ export default function Login() {
                         key={form.key('password')}
                         {...form.getInputProps('password')}
                     />
+                    {
+                        message ? <Alert variant="light" color="red">
+                            {message}
+                        </Alert> : <></>
+                    }
                     <Group justify="flex-end" mt="md">
                         <Button type="submit" loading={loggingIn}>Login</Button>
                     </Group>

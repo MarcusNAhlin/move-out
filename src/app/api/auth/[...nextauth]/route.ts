@@ -25,7 +25,11 @@ const handler = NextAuth({
             })
             const auth = await res.json();
 
-            return auth.ok
+            if (!auth.ok) {
+                throw new Error(auth.message);
+            }
+
+            return auth.ok;
             }
         })
     ]
