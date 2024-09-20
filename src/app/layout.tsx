@@ -45,7 +45,18 @@ export default function RootLayout({
             >{children}</MantineProvider> */}
 
         <MantineProvider theme={theme} defaultColorScheme="dark">
-          {children}
+          <div
+            style={{
+              minHeight: "100vh",
+              display: "flex",
+              flexDirection: "column",
+              marginTop: "20vh",
+              alignItems: "center",
+              textAlign: "center",
+            }}
+          >
+            {children}
+          </div>
         </MantineProvider>
         </body>
       </html>

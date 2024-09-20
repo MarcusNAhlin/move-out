@@ -1,5 +1,6 @@
 "use client";
 
+import BackBtn from "@/components/BackBtn";
 import { Alert, Button, Group, PasswordInput, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { signIn } from "next-auth/react";
@@ -51,15 +52,19 @@ export default function Login() {
 
     return (
         <>
+            <BackBtn text="&larr;" href="/" icon />
             <div style={{
-                width: "90vw",
-                maxWidth: "300px",
-                marginTop: "30vh",
-                marginLeft: "auto",
-                marginRight: "auto",
+                textAlign: "left",
             }}>
-                <form onSubmit={form.onSubmit(handleFormSubmit)}>
+                <h1>Login</h1>
+                <form onSubmit={form.onSubmit(handleFormSubmit)}
+                    style={{
+                        maxWidth: "90vw",
+                        width: "300px",
+                    }}
+                >
                     <TextInput
+                        mb={"sm"}
                         label="Email"
                             id="email"
                             placeholder="example@email.com"
@@ -67,6 +72,7 @@ export default function Login() {
                             {...form.getInputProps('email')}
                         />
                     <PasswordInput
+                        mb={"sm"}
                         label="Password"
                         id="password"
                         placeholder="**********"
@@ -83,16 +89,18 @@ export default function Login() {
                     </Group>
                     <div
                     style={{
-                        textAlign: "center"
+                        textAlign: "center",
+                        marginTop: "1rem",
+                        lineHeight: "1rem",
                     }}>
                         <a
                             href="/register"
                             style={{
-                                marginTop: "2rem",
                                 fontSize: "0.8rem",
-                                textDecoration: "underline"
+                                textDecoration: "underline",
+                                padding: "0.5rem 0",
                             }}
-                            >Don't have an account? Register here
+                            >Don't have an account? <br /> Register here
                         </a>
                     </div>
                 </form>

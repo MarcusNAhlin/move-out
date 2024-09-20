@@ -21,7 +21,6 @@ export default function Home() {
         >
           <div
           style={{
-            marginTop: "30vh",
             textAlign: "center",
           }}>
             <Title order={1} mb={"md"}>MoveOut</Title>

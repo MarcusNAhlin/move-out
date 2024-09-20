@@ -1,5 +1,6 @@
 "use client";
 
+import BackBtn from "@/components/BackBtn";
 import { Button, Text } from "@mantine/core";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -37,22 +38,9 @@ export default function verifyPage() {
 
     return (
         <>
-            <div
-                style={{
-                    width: '90vw',
-                    maxWidth: '300px',
-                    marginTop: '30vh',
-                    marginLeft: 'auto',
-                    marginRight: 'auto',
-                    textAlign: 'center'
-                }}
-            >
+        <BackBtn text="&larr;" href="/" icon />
+            <div>
                 <Text>{status}</Text>
-                <Button
-                    component="a"
-                    href="/"
-                    mt={"lg"}
-                >Back to home</Button>
             </div>
         </>
     )
