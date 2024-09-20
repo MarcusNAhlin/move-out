@@ -32,12 +32,24 @@ async function register(req: NextRequest, res: NextResponse) {
                 }
             });
 
+            let newToken = crypto.randomUUID();
+
             await prisma.verificationToken.create({
                 data: {
                     userId: newUser.id,
-                    token: crypto.randomUUID(),
+                    token: newToken,
                     expires: new Date(Date.now() + 1000 * 60 * 60 * 24) // 24 hours
                 }
+            });
+
+            console.log("here12");
+
+            await fetch(`${process.env.NEXTAUTH_URL}/api/authenticate/token/sendMail`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email: email, token: newToken }),
             });
 
             return NextResponse.json({ message: "Registration successful", error: false, status: 200, ok: true});
