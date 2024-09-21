@@ -17,7 +17,7 @@ export default function Login() {
 
         validate: {
             email: (value:string): string | null => (value.length < 5 ? 'Email too short' :
-                                value.length > 50 ? 'Email too long' : null),
+                                value.length > 50 ? 'Email too long' : /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(value) ? null : "Invalid email"),
             password: (value:string): string | null => (value.length < 5 ? 'Password too short' :
                                     value.length > 50 ? 'Password too long' : null),
             passwordVerify: (value: string, values: any):string | null => (value !== values.password ? 'Passwords do not match' : null)
