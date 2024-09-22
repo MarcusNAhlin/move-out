@@ -65,10 +65,10 @@ async function register(req: NextRequest) {
 
             return NextResponse.json({ message: "Registration successful", error: false, status: 200, ok: true});
         } catch (e) {
-            return NextResponse.json({ message: "Registration failed! Try again. 1", error: true, status: 401, ok: false });
+            return NextResponse.json({ message: "Registration failed! Try again.", error: true, status: 401, ok: false });
         }
 
-    return NextResponse.json({ message: "Registration failed! Try again. 2", error: true, status: 401, ok: false });
+    return NextResponse.json({ message: "Registration failed! Try again.", error: true, status: 401, ok: false });
 }
 
 export { register as POST };
