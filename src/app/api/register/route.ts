@@ -19,6 +19,14 @@ async function register(req: NextRequest) {
         return NextResponse.json({ message: "Passwords not matching!", error: true, status: 401, ok: false });
     }
 
+    if (/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(email) === false) {
+        return NextResponse.json({ message: "Invalid email!", error: true, status: 401, ok: false });
+    }
+
+    if (password.length < 5 || password.length > 50) {
+        return NextResponse.json({ message: "Password must be between 5 and 50 characters!", error: true, status: 401, ok: false });
+    }
+
     try {
         var existingUser: User | null = await prisma.user.findUnique({
             where: {
