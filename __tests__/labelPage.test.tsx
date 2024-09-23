@@ -7,7 +7,7 @@ import Home from '../src/app/page';
 // Mock the `useSession` hook from next-auth/react
 jest.mock('next-auth/react');
 
-describe('Home Page', () => {
+describe('Label Page', () => {
     it('renders label header', async () => {
         // Mock session data
         (useSession as jest.Mock).mockReturnValue({
