@@ -25,21 +25,40 @@ async function authenticate(req: NextRequest, res: NextResponse) {
         return NextResponse.json({ message: "Your account is not verified. Check your email inbox!", error: true, status: 401, ok: false });
     }
 
+    let verifiedUser;
+
     try {
-        const userVerified = await prisma.user.findUnique({
+        const userToVerify = await prisma.user.findUnique({
             where: { id: user.id, verified: true },
-            select: { hash_pass: true },
+            select: {
+                id: true,
+                hash_pass: true,
+                },
         });
 
-        if (userVerified?.hash_pass) {
-            authenticated = await bcrypt.compare(password, userVerified.hash_pass);
+        if (userToVerify?.hash_pass) {
+            authenticated = await bcrypt.compare(password, userToVerify.hash_pass);
         }
+
+
+        if (authenticated && userToVerify) {
+            await prisma.user.update({
+                where: { id: userToVerify.id },
+                data: { accessToken: crypto.randomUUID() },
+            });
+        }
+
+        verifiedUser = await prisma.user.findUnique({
+            where: { id: user.id, verified: true },
+        });
+
     } catch (e) {
         return NextResponse.json({ message: "Wrong email or password!", error: true, status: 401, ok: false });
     }
 
-    if (authenticated) {
-        return NextResponse.json({ message: "Login success!", error: false, status: 200, ok: true });
+    if (authenticated && verifiedUser) {
+        return NextResponse.json({ message: "Login success!", error: false, status: 200, ok: true, user: verifiedUser });
+
     }
 
     return NextResponse.json({ message: "Wrong email or password!", error: true, status: 401, ok: false });

@@ -1,5 +1,5 @@
 "use client"
-import { Button, Flex, Title } from "@mantine/core";
+import { Button, Flex, Text, Title } from "@mantine/core";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 export default function Home() {
@@ -24,6 +24,9 @@ export default function Home() {
             textAlign: "center",
           }}>
             <Title order={1} mb={"md"}>MoveOut</Title>
+            <Text>
+              {status === "authenticated" ? `Welcome, ${session.user?.email}` : "You are not signed in"}
+            </Text>
             {
               status === "authenticated" ?
               <Button onClick={() => signOut()}>Sign Out</Button>

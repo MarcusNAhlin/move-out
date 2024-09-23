@@ -14,14 +14,15 @@ datasource db {
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
-  email     String    @unique
-  hash_pass String
-  verified  Boolean   @default(false)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  role      Role      @default(USER)
-  token     VerificationToken?
+  id                  Int       @id @default(autoincrement())
+  email               String    @unique
+  hash_pass           String
+  verified            Boolean   @default(false)
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  role                Role      @default(USER)
+  token               VerificationToken?
+  accessToken         String? @unique
 }
 
 enum Role {

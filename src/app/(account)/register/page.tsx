@@ -44,7 +44,7 @@ export default function Login() {
             }
 
             if (data.ok) {
-                router.push("/login");
+                router.push("/verify-info");
                 router.refresh();
             }
 
