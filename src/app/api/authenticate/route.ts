@@ -41,13 +41,6 @@ async function authenticate(req: NextRequest, res: NextResponse) {
         }
 
 
-        if (authenticated && userToVerify) {
-            await prisma.user.update({
-                where: { id: userToVerify.id },
-                data: { accessToken: crypto.randomUUID() },
-            });
-        }
-
         verifiedUser = await prisma.user.findUnique({
             where: { id: user.id, verified: true },
         });

@@ -22,7 +22,6 @@ model User {
   updatedAt           DateTime  @updatedAt
   role                Role      @default(USER)
   token               VerificationToken?
-  accessToken         String? @unique
 }
 
 enum Role {
