@@ -1,6 +1,7 @@
 "use client"
 import { Button, Flex, Text, Title } from "@mantine/core";
 import { signIn, signOut, useSession } from "next-auth/react";
+import LabelHolder from "@/components/LabelHolder";
 
 export default function Home() {
   const { data: session, status } = useSession();
@@ -15,7 +16,6 @@ export default function Home() {
         <Flex
           justify="center"
           style={{
-            height: "100%",
             width: "100%",
           }}
         >
@@ -24,7 +24,9 @@ export default function Home() {
             textAlign: "center",
           }}>
             <Title order={1} mb={"md"}>MoveOut</Title>
-            <Text>
+            <Text
+              mb={"sm"}
+            >
               {status === "authenticated" ? `Welcome, ${session.user?.email}` : "You are not signed in"}
             </Text>
             {
@@ -35,6 +37,10 @@ export default function Home() {
             }
           </div>
         </Flex>
+        {
+          status === "authenticated" &&
+          <LabelHolder />
+        }
       </main>
     </>
   );
