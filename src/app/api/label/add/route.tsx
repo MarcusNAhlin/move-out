@@ -10,7 +10,7 @@ async function addLabel(req: NextRequest) {
     const { labelTitle, email } = await req.json();
 
     if (!labelTitle) {
-        return NextResponse.json({ message: "Label title!", error: true, status: 401, ok: false });
+        return NextResponse.json({ message: "No label title provided!", error: true, status: 401, ok: false });
     }
 
     if (!email) {
