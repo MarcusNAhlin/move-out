@@ -41,7 +41,7 @@ model VerificationToken {
 }
 
 model Label {
-  id            Int       @id @default(autoincrement())
+  id            String       @id @default(uuid())
   userId        Int
   title         String
   type          LabelType @default(NORMAL)
