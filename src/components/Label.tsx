@@ -1,7 +1,8 @@
-import { Text, Title } from "@mantine/core";
+import { Button, Text, Title } from "@mantine/core";
 import QRCode from "@/components/QRCode";
+import BackBtn from "@/components/BackBtn";
 
-export default function label({ label }: any) {
+export default function label({ label, width="20rem", printBtn=false }: any) {
 
     if (!label) {
         return;
@@ -27,22 +28,55 @@ export default function label({ label }: any) {
             break;
     }
 
+    function printLabel() {
+        const divContents = document.getElementById("label");
+
+        if (divContents) {
+            const divContentHTML = divContents.innerHTML;
+
+            let printWindow = window.open('', '', 'height=500, width=500');
+
+            if (printWindow) {
+                printWindow.document.open();
+                printWindow.document.write(`
+                <html>
+                <head>
+                <style>
+                    body {
+                        text-align: center;
+                    }
+            </style>
+                <title>Label</title>
+                </head>
+                    <body>
+                        ${divContentHTML}
+                    </body>
+                </html>
+                `);
+
+                printWindow.document.close();
+                printWindow.print();
+            }
+        }
+    }
+
     return(
         <>
-            <Title order={2}>Label</Title>
+            <BackBtn text="&larr;" href="/" icon />
             <div
                 style={{
-                    width: "20rem",
-                    height: "20rem",
+                    width: width,
                     border: `8px solid ${color}`,
                     background: "white"
                 }}
+                id="label"
             >
                 <Title order={3}
                     style={{
                         color: "black",
-                        fontSize: "1.6rem"
+                        fontSize: "1.6rem",
                     }}
+                    id="label-title"
                 >{label.title}</Title>
                 <Text
                     style={{
@@ -52,8 +86,12 @@ export default function label({ label }: any) {
                         fontSize: "2rem"
                     }}
                 >{label.type}</Text>
-                <QRCode link={process.env.NEXT_PUBLIC_NEXTAUTH_URL + "/label/" + label.id} />
+                <QRCode link={process.env.NEXT_PUBLIC_NEXTAUTH_URL + "/label/" + label.id} size={width/2} />
             </div>
+            {
+                printBtn &&
+                <Button onClick={printLabel}>Print</Button>
+            }
         </>
     )
 }

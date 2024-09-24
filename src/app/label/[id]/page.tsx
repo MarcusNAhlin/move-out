@@ -47,7 +47,7 @@ export default function labelPage() {
         }
 
         {
-            label && <Label label={label} />
+            label && <Label label={label} printBtn />
         }
         </>
     )

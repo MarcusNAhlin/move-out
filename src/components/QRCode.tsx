@@ -1,20 +1,20 @@
 import { useQRCode } from 'next-qrcode';
 
-export default function qrCode({ link }: any) {
-    const { SVG } = useQRCode();
+export default function qrCode({ link, size }: any) {
+    const { Image } = useQRCode();
 
 
     return (
         <>
         {
             link &&
-            <SVG
+            <Image
             text={link}
                 options={{
                 errorCorrectionLevel: 'M',
                 margin: 3,
                 scale: 4,
-                width: 200,
+                width: size,
                 color: {
                 dark: '#000',
                 light: '#fff',
