@@ -44,10 +44,17 @@ model Label {
   id            Int       @id @default(autoincrement())
   userId        Int
   title         String
+  type          LabelType @default(NORMAL)
   text          String?
   picturePath   String?   @unique
   soundPath     String?   @unique
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   user          User      @relation(fields: [userId], references: [id])
+}
+
+enum LabelType {
+  NORMAL
+  FRAGILE
+  HAZARDOUS
 }
