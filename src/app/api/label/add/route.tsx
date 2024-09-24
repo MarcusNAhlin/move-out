@@ -7,10 +7,14 @@ type User = {
 
 async function addLabel(req: NextRequest) {
     const prisma = new PrismaClient();
-    const { labelTitle, email } = await req.json();
+    const { labelTitle, labelDesign, email } = await req.json();
 
     if (!labelTitle) {
         return NextResponse.json({ message: "No label title provided!", error: true, status: 401, ok: false });
+    }
+
+    if (!labelDesign) {
+        return NextResponse.json({ message: "No label design provided!", error: true, status: 401, ok: false });
     }
 
     if (!email) {
@@ -43,6 +47,7 @@ async function addLabel(req: NextRequest) {
             data: {
                 userId: userId,
                 title: labelTitle,
+                type: labelDesign
             }
         });
 

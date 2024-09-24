@@ -1,6 +1,6 @@
 "use client";
 
-import { Alert, Button, Group, TextInput } from "@mantine/core";
+import { Alert, Button, Group, Select, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -14,7 +14,7 @@ export default function labelAddPage() {
 
     const form = useForm({
         mode: 'uncontrolled',
-        initialValues: { labelTitle: ''},
+        initialValues: { labelTitle: '', labelDesign: '' },
 
         validate: {
             labelTitle: (value: string) => (value.length < 0 ? 'Title too short' :
@@ -25,7 +25,7 @@ export default function labelAddPage() {
     async function handleFormSubmit(event: any) {
         setAddingLabel(true);
 
-        const { labelTitle } = form.getValues();
+        const { labelTitle, labelDesign } = form.getValues();
 
         if (!session?.user?.email) {
             setMessage("You need to be logged in to add labels");
@@ -41,6 +41,7 @@ export default function labelAddPage() {
                 },
                 body: JSON.stringify({
                     labelTitle: labelTitle,
+                    labelDesign: labelDesign,
                     email: session.user.email,
                 }),
             });
@@ -72,11 +73,19 @@ export default function labelAddPage() {
                         mb={"sm"}
                         label="Label Title"
                         id="labelTitle"
-                        placeholder="Box 1"
+                        placeholder="Enter a label title"
                         required
                         key={form.key('labelTitle')}
                         {...form.getInputProps('labelTitle')}
                         />
+                    <Select
+                        label="Label Design"
+                        placeholder="Select design"
+                        data={["NORMAL", "FRAGILE", "HAZARDOUS"]}
+                        required
+                        key={form.key('labelDesign')}
+                        {...form.getInputProps('labelDesign')}
+                    />
                     {
                         message ? <Alert variant="light" color="red">
                             {message}
