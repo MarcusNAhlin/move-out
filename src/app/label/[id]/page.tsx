@@ -3,7 +3,7 @@
 import { Text } from '@mantine/core';
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react';
-import Label from "@/components/label";
+import Label from "@/components/Label";
 
 interface Label {
     id: string;

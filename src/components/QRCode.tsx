@@ -3,6 +3,7 @@ import { useQRCode } from 'next-qrcode';
 export default function qrCode({ link }: any) {
     const { SVG } = useQRCode();
 
+
     return (
         <>
         {
@@ -15,8 +16,8 @@ export default function qrCode({ link }: any) {
                 scale: 4,
                 width: 200,
                 color: {
-                dark: '#010599FF',
-                light: '#FFBF60FF',
+                dark: '#000',
+                light: '#fff',
                 },
             }}
             />

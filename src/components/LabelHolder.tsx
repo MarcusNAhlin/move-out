@@ -1,5 +1,5 @@
 import { Flex, Title } from "@mantine/core";
-import AddLabelBtn from "@/components/addLabelBtn";
+import AddLabelBtn from "@/components/AddLabelBtn";
 import UserLabels from "@/components/UserLabels";
 
 export default function labelHolder() {
