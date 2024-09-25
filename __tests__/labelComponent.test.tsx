@@ -97,4 +97,33 @@ describe('Label Component', () => {
         const printBtn = screen.getByRole("button");
         expect(printBtn).toBeInTheDocument();
     });
+
+    it('renders label QR-image', async () => {
+        // Mock session data
+        (useSession as jest.Mock).mockReturnValue({
+            data: {
+                user: {
+                    email: "test@gmail.com"
+                }
+            },
+            status: 'authenticated',
+        });
+
+        const label = {
+            id: "123",
+            title: "plates",
+            type: "NORMAL",
+        }
+
+        // Render the Home component
+        render(
+            <MantineProvider>
+                <LabelComponent label={label} printBtn />
+            </MantineProvider>
+        );
+
+        // Assert
+        const QRImage = screen.getByRole('img') as HTMLImageElement;
+        expect(QRImage);
+    });
 });
