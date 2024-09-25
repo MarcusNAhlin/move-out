@@ -7,7 +7,7 @@ import LabelComponent from '@/components/Label';
 // Mock the `useSession` hook from next-auth/react
 jest.mock('next-auth/react');
 
-describe('Label Page', () => {
+describe('Label Component', () => {
     it('renders label header', async () => {
         // Mock session data
         (useSession as jest.Mock).mockReturnValue({
