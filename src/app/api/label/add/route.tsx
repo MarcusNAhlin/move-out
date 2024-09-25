@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
+import { addLabel as addLabelToDB } from "@/database_calls/labels";
+import { title } from "process";
+import { LabelType, LabelInterface } from "@/lib/types";
 
 type User = {
     email: string
@@ -7,7 +10,8 @@ type User = {
 
 async function addLabel(req: NextRequest) {
     const prisma = new PrismaClient();
-    const { labelTitle, labelDesign, email } = await req.json();
+    const { labelTitle, labelDesign, email }:
+        { labelTitle: string, labelDesign: string, email: string } = await req.json();
 
     if (!labelTitle) {
         return NextResponse.json({ message: "No label title provided!", error: true, status: 401, ok: false });
@@ -43,13 +47,13 @@ async function addLabel(req: NextRequest) {
     }
 
     try {
-        await prisma.label.create({
-            data: {
-                userId: userId,
-                title: labelTitle,
-                type: labelDesign
-            }
-        });
+        const label: LabelInterface = {
+            userId: userId,
+            title: labelTitle,
+            type: labelDesign as LabelType
+        }
+
+        await addLabelToDB(label)
 
         return NextResponse.json({ message: "Label created!", error: false, status: 200, ok: true });
     } catch (e) {
