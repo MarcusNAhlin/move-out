@@ -1,12 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import { addLabel as addLabelToDB } from "@/database_calls/labels";
-import { title } from "process";
 import { LabelType, LabelInterface } from "@/lib/types";
-
-type User = {
-    email: string
-}
 
 async function addLabel(req: NextRequest) {
     const prisma = new PrismaClient();
