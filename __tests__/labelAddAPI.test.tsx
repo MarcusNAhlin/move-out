@@ -117,18 +117,5 @@ describe('Label add API', () => {
             createdAt: createdAt,
             updatedAt: updatedAt
         });
-
-        // const res = {} as NextResponse;
-
-        // const response = await POST(req);
-
-
-
-        // expect(NextResponse.json).toHaveBeenCalledWith({
-        //     message: "No label design provided!",
-        //     error: true,
-        //     status: 401,
-        //     ok: false,
-        // });
     });
 });
