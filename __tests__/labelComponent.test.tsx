@@ -68,4 +68,33 @@ describe('Label Component', () => {
         // Assert
         expect(await screen.getByText(labelType)).toBeInTheDocument();
     });
+
+    it('renders label print btn', async () => {
+        // Mock session data
+        (useSession as jest.Mock).mockReturnValue({
+            data: {
+                user: {
+                    email: "test@gmail.com"
+                }
+            },
+            status: 'authenticated',
+        });
+
+        const label = {
+            id: "123",
+            title: "plates",
+            type: "NORMAL",
+        }
+
+        // Render the Home component
+        render(
+            <MantineProvider>
+                <LabelComponent label={label} printBtn />
+            </MantineProvider>
+        );
+
+        // Assert
+        const printBtn = screen.getByRole("button");
+        expect(printBtn).toBeInTheDocument();
+    });
 });
