@@ -1,15 +1,47 @@
-// TypeScript types
+// // TypeScript types
 
+export enum Role {
+    USER = 'USER',
+    ADMIN = 'ADMIN',
+}
 
-export type LabelType = "NORMAL" | "FRAGILE" | "HAZARDOUS";
+export enum LabelType {
+    NORMAL = 'NORMAL',
+    FRAGILE = 'FRAGILE',
+    HAZARDOUS = 'HAZARDOUS',
+}
 
-export interface LabelInterface {
+export interface User {
+    id: number;
+    email: string;
+    hash_pass: string;
+    verified: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+    role: Role;
+    token?: VerificationToken | null;
+    labels: Label[];
+}
+
+export interface VerificationToken {
+    id: number;
+    userId: number;
+    token: string;
+    createdAt: Date;
+    updatedAt: Date;
+    expires: Date;
+    user: User;
+}
+
+export interface Label {
+    id: string;
     userId: number;
     title: string;
     type: LabelType;
-    text?: string;
-    picturePath?: string;
-    soundPath?: string;
-    createdAt?: Date;
-    updatedAt?: Date;
+    text?: string | null;
+    picturePath?: string | null;
+    soundPath?: string | null;
+    createdAt: Date;
+    updatedAt: Date;
+    user: User;
 }
