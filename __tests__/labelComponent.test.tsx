@@ -38,4 +38,34 @@ describe('Label Component', () => {
         expect(await screen.getByRole('heading', { level: 3 }));
         expect(await screen.getByText(labelText)).toBeInTheDocument();
     });
+
+    it('renders label type', async () => {
+        // Mock session data
+        (useSession as jest.Mock).mockReturnValue({
+            data: {
+                user: {
+                    email: "test@gmail.com"
+                }
+            },
+            status: 'authenticated',
+        });
+
+        const label = {
+            id: "123",
+            title: "plates",
+            type: "NORMAL",
+        }
+
+        // Render the Home component
+        render(
+            <MantineProvider>
+                <LabelComponent label={label} printBtn />
+            </MantineProvider>
+        );
+
+        const labelType = label.type;
+
+        // Assert
+        expect(await screen.getByText(labelType)).toBeInTheDocument();
+    });
 });
