@@ -14,6 +14,7 @@ const config: Config = {
   setupFilesAfterEnv: [
     '<rootDir>/jest.setup.ts',
     '<rootDir>/text-encoder.mock.ts',
+    '<rootDir>/singleton.ts'
 ],
   preset: "ts-jest",
 }
