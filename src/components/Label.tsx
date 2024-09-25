@@ -9,22 +9,27 @@ export default function label({ label, width="20rem", printBtn=false }: any) {
     }
 
     let color: string;
+    let icon: string;
 
     switch (label.type) {
         case "NORMAL":
             color = "grey"
+            icon = "☐"
             break;
 
         case "FRAGILE":
             color = "orange"
+            icon = "⚠"
             break;
 
         case "HAZARDOUS":
             color = "red"
+            icon = "☣"
             break;
 
         default:
             color = "grey"
+            icon = ""
             break;
     }
 
@@ -86,6 +91,13 @@ export default function label({ label, width="20rem", printBtn=false }: any) {
                         fontSize: "2rem"
                     }}
                 >{label.type}</Text>
+                <Text
+                    style={{
+                        color: color,
+                        fontWeight: "bold",
+                        fontSize: "4rem"
+                    }}
+                >{icon}</Text>
                 <QRCode link={process.env.NEXT_PUBLIC_NEXTAUTH_URL + "/label/" + label.id} size={width/2} />
             </div>
             {
