@@ -29,7 +29,7 @@ export default function label({ label, width="20rem", printBtn=false }: any) {
 
         default:
             color = "grey"
-            icon = ""
+            icon = "☐"
             break;
     }
 
