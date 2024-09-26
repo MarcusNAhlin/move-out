@@ -19,7 +19,7 @@ export interface User {
     createdAt: Date;
     updatedAt: Date;
     role: Role;
-    token?: VerificationToken | null;
+    token?: VerificationToken | undefined;
     labels: Label[];
 }
 
@@ -38,9 +38,9 @@ export interface Label {
     userId: number;
     title: string;
     type: LabelType;
-    text?: string | null;
-    picturePath?: string | null;
-    soundPath?: string | null;
+    text?: string | undefined;
+    picturePath?: string | undefined;
+    soundPath?: string | undefined;
     createdAt: Date;
     updatedAt: Date;
     user: User;
