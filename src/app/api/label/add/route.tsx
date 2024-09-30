@@ -5,8 +5,8 @@ import { LabelType } from "@/lib/types";
 
 async function addLabel(req: NextRequest) {
     const prisma = new PrismaClient();
-    const { labelTitle, labelDesign, email }:
-        { labelTitle: string, labelDesign: string, email: string } = await req.json();
+    const { labelTitle, labelDesign, labelTextContent, email }:
+        { labelTitle: string, labelDesign: string, labelTextContent:string,  email: string } = await req.json();
 
     if (!labelTitle) {
         return NextResponse.json({ message: "No label title provided!", error: true, status: 401, ok: false });
@@ -46,7 +46,8 @@ async function addLabel(req: NextRequest) {
         const label: any = {
             userId: userId,
             title: labelTitle,
-            type: labelDesign as LabelType
+            type: labelDesign as LabelType,
+            text: labelTextContent || "",
         }
 
         await addLabelToDB(label)

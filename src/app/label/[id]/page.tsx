@@ -1,19 +1,14 @@
 "use client";
 
-import { Text } from '@mantine/core';
+import { Box, Text, Title } from '@mantine/core';
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react';
+import { Label as LabelInterface } from "@/lib/types";
 import Label from "@/components/Label";
-
-interface Label {
-    id: string;
-    title: string;
-    type: string
-}
 
 export default function LabelPage() {
     const router = useParams();
-    const [label, setLabel] = useState<Label>();
+    const [label, setLabel] = useState<LabelInterface>();
     const [message, setMessage] = useState("");
 
 
@@ -39,6 +34,13 @@ export default function LabelPage() {
         getLabel();
     }, [id]);
 
+    let labelText;
+
+    // Split box content into array split by rows
+    if (label?.text) {
+        labelText = label?.text.split("\n")
+    }
+
 
     return (
         <>
@@ -49,6 +51,15 @@ export default function LabelPage() {
         {
             label && <Label label={label} printBtn />
         }
+        <Box mt={"lg"}>
+            <Title order={4}>Box Content</Title>
+
+            {
+                labelText && labelText.map((text, index) => {
+                    return <Text key={index}>{text}</Text>
+                })
+            }
+        </Box>
         </>
     )
 }

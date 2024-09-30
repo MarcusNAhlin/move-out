@@ -1,6 +1,6 @@
 "use client";
 
-import { Alert, Button, Group, Select, TextInput } from "@mantine/core";
+import { Alert, Button, Group, Select, TextInput, Textarea } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -14,7 +14,7 @@ export default function LabelAddPage() {
 
     const form = useForm({
         mode: 'uncontrolled',
-        initialValues: { labelTitle: '', labelDesign: '' },
+        initialValues: { labelTitle: '', labelDesign: '', labelTextContent: '' },
 
         validate: {
             labelTitle: (value: string) => (value.length < 0 ? 'Title too short' :
@@ -25,7 +25,7 @@ export default function LabelAddPage() {
     async function handleFormSubmit() {
         setAddingLabel(true);
 
-        const { labelTitle, labelDesign } = form.getValues();
+        const { labelTitle, labelDesign, labelTextContent } = form.getValues();
 
         if (!session?.user?.email) {
             setMessage("You need to be logged in to add labels");
@@ -42,6 +42,7 @@ export default function LabelAddPage() {
                 body: JSON.stringify({
                     labelTitle: labelTitle,
                     labelDesign: labelDesign,
+                    labelTextContent: labelTextContent,
                     email: session.user.email,
                 }),
             });
@@ -79,12 +80,21 @@ export default function LabelAddPage() {
                         {...form.getInputProps('labelTitle')}
                         />
                     <Select
+                        mb={"sm"}
                         label="Label Design"
                         placeholder="Select design"
                         data={["NORMAL", "FRAGILE", "HAZARDOUS"]}
                         required
                         key={form.key('labelDesign')}
                         {...form.getInputProps('labelDesign')}
+                    />
+                    <Textarea
+                        label="Box Content"
+                        placeholder={`Item 1\nItem 2\nItem 3\nItem 4\nItem 5`}
+                        minRows={5}
+                        autosize
+                        key={form.key('labelTextContent')}
+                        {...form.getInputProps('labelTextContent')}
                     />
                     {
                         message ? <Alert variant="light" color="red">
