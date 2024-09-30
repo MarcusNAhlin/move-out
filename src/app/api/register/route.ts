@@ -29,14 +29,16 @@ async function register(req: NextRequest) {
         return NextResponse.json({ message: "Password must be between 5 and 50 characters!", error: true, status: 401, ok: false });
     }
 
+    let existingUser: User | null = null;
+
     try {
-        var existingUser: User | null = await prisma.user.findUnique({
+        existingUser = await prisma.user.findUnique({
             where: {
                 email: email
             }
         });
     } catch (e) {
-        var existingUser: User | null = null;
+        existingUser = null;
     }
 
     if (existingUser) {
