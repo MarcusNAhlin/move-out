@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import generateToken from "@/lib/generateToken";
 
-const bcrypt = require("bcrypt");
+// const bcrypt = require("bcrypt");
+import bcrypt from "bcrypt";
 
 type User = {
     email: string

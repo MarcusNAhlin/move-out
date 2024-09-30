@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 
-const bcrypt = require("bcrypt");
+// const bcrypt = require("bcrypt");
+import bcrypt from "bcrypt";
 
 async function authenticate(req: NextRequest) {
     const prisma = new PrismaClient();
