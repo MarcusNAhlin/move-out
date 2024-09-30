@@ -36,7 +36,7 @@ const handler = NextAuth({
         })
     ],
     callbacks: {
-        async jwt({ token, user, session }) {
+        async jwt({ token, user }) {
             // console.log("jwt", { token, user, session });
 
             // Add userId and email to token
@@ -50,7 +50,7 @@ const handler = NextAuth({
 
             return token;
         },
-        async session({ session, token, user }) {
+        async session({ session, token }) {
             // console.log("session", { session, token, user });
 
             // Add userId and token to session

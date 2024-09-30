@@ -1,8 +1,8 @@
 
-import { NextRequest, NextResponse, userAgent } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 
-async function authenticateToken(req: NextRequest, res: NextResponse) {
+async function authenticateToken(req: NextRequest) {
     const prisma = new PrismaClient();
     const { inputToken } = await req.json();
 

@@ -1,6 +1,5 @@
 import prisma from '../../client';
-import { Prisma, Role, LabelType } from '@prisma/client';
-import { User } from '@/lib/types';
+import { Prisma } from '@prisma/client';
 
 export async function registerUser(user: Prisma.UserUncheckedCreateInput) {
     try {

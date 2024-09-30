@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import generateToken from "@/lib/generateToken";
+
 const bcrypt = require("bcrypt");
 
 type User = {
@@ -53,7 +54,7 @@ async function register(req: NextRequest) {
             }
         });
 
-        let newToken = generateToken();
+        const newToken = generateToken();
 
         await prisma.verificationToken.create({
             data: {

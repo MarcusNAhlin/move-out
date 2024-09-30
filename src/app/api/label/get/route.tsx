@@ -1,10 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
-import { NextApiRequest } from "next";
-
-type User = {
-    email: string
-}
 
 async function getLabels(req: NextRequest) {
     const prisma = new PrismaClient();

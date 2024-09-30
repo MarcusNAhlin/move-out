@@ -25,7 +25,7 @@ export default function Login() {
         },
         });
 
-    async function handleFormSubmit(event:any) {
+    async function handleFormSubmit() {
         setLoggingIn(true);
         const { email, password } = form.getValues();
 
@@ -100,7 +100,7 @@ export default function Login() {
                                 textDecoration: "underline",
                                 padding: "0.5rem 0",
                             }}
-                            >Don't have an account? <br /> Register here
+                            >Don&apos;t have an account? <br /> Register here
                         </a>
                     </div>
                 </form>

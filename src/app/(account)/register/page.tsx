@@ -6,7 +6,7 @@ import { useForm } from "@mantine/form";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function Login() {
+export default function Register() {
     const router = useRouter();
     const [isRegistering, setIsRegistering] = useState(false);
     const [message, setMessage] = useState("");

@@ -1,6 +1,6 @@
 "use client"
 
-import { Button, Card, Flex, Text } from "@mantine/core";
+import { Flex } from "@mantine/core";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import Label from "@/components/Label";
@@ -10,8 +10,8 @@ interface Label {
     title: string;
 }
 
-export default function userLabels() {
-    const { data: session, status } = useSession();
+export default function UserLabels() {
+    const { data: session } = useSession();
     const [labels, setLabels] = useState<Label[]>([]);
 
         useEffect(() => {
@@ -34,7 +34,7 @@ export default function userLabels() {
             }
 
         getUserLabels();
-    }, []);
+    }, [session?.user?.email]);
 
     return (
         <>
@@ -42,7 +42,7 @@ export default function userLabels() {
         {
             labels ? labels.map((label) => {
                 return (
-                    <a href={`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/label/${label.id}`}>
+                    <a href={`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/label/${label.id}`} key={label.id}>
                         <Label label={label} width="15rem" />
                     </a>
                 )

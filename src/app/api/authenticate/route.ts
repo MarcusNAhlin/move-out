@@ -1,8 +1,9 @@
-import { NextRequest, NextResponse, userAgent } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
+
 const bcrypt = require("bcrypt");
 
-async function authenticate(req: NextRequest, res: NextResponse) {
+async function authenticate(req: NextRequest) {
     const prisma = new PrismaClient();
     const { email, password } = await req.json();
 

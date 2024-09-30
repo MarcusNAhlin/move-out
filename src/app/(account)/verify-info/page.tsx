@@ -1,7 +1,6 @@
 import BackBtn from "@/components/BackBtn";
-import { Button } from "@mantine/core";
 
-export default function verifyInfo() {
+export default function VerifyInfo() {
     return (
         <>
             <BackBtn text="&larr;" href="/" icon />

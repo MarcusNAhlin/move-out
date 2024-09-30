@@ -11,7 +11,7 @@ interface Label {
     type: string
 }
 
-export default function labelPage() {
+export default function LabelPage() {
     const router = useParams();
     const [label, setLabel] = useState<Label>();
     const [message, setMessage] = useState("");
@@ -37,7 +37,7 @@ export default function labelPage() {
         }
 
         getLabel();
-    }, []);
+    }, [id]);
 
 
     return (

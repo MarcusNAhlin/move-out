@@ -1,11 +1,11 @@
 "use client";
 
 import BackBtn from "@/components/BackBtn";
-import { Button, Text } from "@mantine/core";
+import { Text } from "@mantine/core";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function verifyPage() {
+export default function VerifyPage() {
     let token = null;
 
     const searchParams = useSearchParams();
@@ -34,7 +34,7 @@ export default function verifyPage() {
             }
         })
     }
-    }, [])
+    }, [token])
 
     return (
         <>

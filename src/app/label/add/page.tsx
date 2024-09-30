@@ -6,7 +6,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function labelAddPage() {
+export default function LabelAddPage() {
     const router = useRouter();
     const [message, setMessage] = useState("");
     const [addingLabel, setAddingLabel] = useState(false);
@@ -22,7 +22,7 @@ export default function labelAddPage() {
         },
     });
 
-    async function handleFormSubmit(event: any) {
+    async function handleFormSubmit() {
         setAddingLabel(true);
 
         const { labelTitle, labelDesign } = form.getValues();

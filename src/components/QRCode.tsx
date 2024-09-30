@@ -1,6 +1,6 @@
 import { useQRCode } from 'next-qrcode';
 
-export default function qrCode({ link, size }: any) {
+export default function QRCode({ link, size }: any) {
     const { Image } = useQRCode();
 
 

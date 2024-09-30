@@ -39,7 +39,7 @@ export default function label({ label, width="20rem", printBtn=false }: any) {
         if (divContents) {
             const divContentHTML = divContents.innerHTML;
 
-            let printWindow = window.open('', '', 'height=500, width=500');
+            const printWindow = window.open('', '', 'height=500, width=500');
 
             if (printWindow) {
                 printWindow.document.open();
