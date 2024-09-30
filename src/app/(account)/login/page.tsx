@@ -20,7 +20,7 @@ export default function Login() {
         validate: {
             email: (value) => (value.length < 5 ? 'Email too short' :
                                 value.length > 50 ? 'Email too long' : null),
-            password: (value) => (value.length < 5 ? 'Password too short' :
+            password: (value) => (value.length < 6 ? 'Password too short' :
                                     value.length > 50 ? 'Password too long' : null),
         },
         });
