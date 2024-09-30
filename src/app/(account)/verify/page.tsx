@@ -3,9 +3,9 @@
 import BackBtn from "@/components/BackBtn";
 import { Text } from "@mantine/core";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 
-export default function VerifyPage() {
+function VerifyPageContent() {
     let token = null;
 
     const searchParams = useSearchParams();
@@ -38,10 +38,18 @@ export default function VerifyPage() {
 
     return (
         <>
-        <BackBtn text="&larr;" href="/" icon />
+            <BackBtn text="&larr;" href="/" icon />
             <div>
                 <Text>{status}</Text>
             </div>
         </>
     )
+}
+
+export default function VerifyPage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <VerifyPageContent />
+        </Suspense>
+    );
 }
