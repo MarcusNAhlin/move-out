@@ -43,4 +43,29 @@ describe('Label Add Page', () => {
 
         expect(titelTextElements.length).toBeGreaterThan(0);
     });
+
+    it('renders input text data form', async () => {
+        // Mock session data
+        (useSession as jest.Mock).mockReturnValue({
+            data: {
+                user: {
+                    email: "test@gmail.com"
+                }
+            },
+            status: 'authenticated',
+        });
+
+        // Render the Label component
+        render(
+            <MantineProvider>
+                <LabelAddPage />
+            </MantineProvider>
+        );
+
+
+        // Assert
+        // Test that there are 3 inputs/textareas
+        const textboxes = screen.getAllByRole('textbox');
+        expect(textboxes.length).toBe(3);
+    });
 });
