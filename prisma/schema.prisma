@@ -46,7 +46,7 @@ model Label {
   title         String
   type          LabelType @default(NORMAL)
   text          String?
-  picturePath   String?   @unique
+  imageName     String?
   soundPath     String?   @unique
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt

@@ -39,7 +39,7 @@ export interface Label {
     title: string;
     type: LabelType;
     text?: string | undefined;
-    picturePath?: string | undefined;
+    imageName?: string | undefined;
     soundPath?: string | undefined;
     createdAt: Date;
     updatedAt: Date;
