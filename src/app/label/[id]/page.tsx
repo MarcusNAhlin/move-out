@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Text, Title } from '@mantine/core';
+import { Box, Image, Text, Title } from '@mantine/core';
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react';
 import { Label as LabelInterface } from "@/lib/types";
@@ -60,6 +60,7 @@ export default function LabelPage() {
                 })
             }
         </Box>
+        <Image src={`/images/user-images/${label?.userId}/${label?.id}/${label?.imageName}`} maw={"90vw"} w={"600px"} mt={"lg"} />
         </>
     )
 }

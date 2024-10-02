@@ -71,7 +71,6 @@ async function addLabel(req: NextRequest) {
         return NextResponse.json({ message: "User not found!", error: true, status: 401, ok: false }, { status: 401 });
     }
 
-    let imagePath: string | null = null;
 
     try {
         // TODO: Fix type!
@@ -80,10 +79,12 @@ async function addLabel(req: NextRequest) {
             title: labelTitle,
             type: labelDesign as LabelType,
             text: labelTextContent || "",
-            picturePath: imagePath || null
+            imageName: image.name || null
         }
 
         const newLabel = await addLabelToDB(label)
+
+        let imagePath: string | null = null;
 
         if (image) {
             imagePath = path.join(process.cwd(), "public", "images", "user-images", `${userId}`, `${newLabel.id}`, `${image.name}`);

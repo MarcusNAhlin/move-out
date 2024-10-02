@@ -26,10 +26,6 @@ export default function LabelAddPage() {
     async function handleFormSubmit(values: any) {
         setAddingLabel(true);
 
-        // const { labelTitle, labelDesign, labelTextContent, labelImage } = form.getValues();
-
-
-
         if (!session?.user?.email) {
             setMessage("You need to be logged in to add labels");
             setAddingLabel(false);
@@ -46,26 +42,11 @@ export default function LabelAddPage() {
         }
 
         try {
-            // const response: any = await fetch(`/api/label/add`, {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //     },
-            //     body: JSON.stringify({
-            //         labelTitle: labelTitle,
-            //         labelDesign: labelDesign,
-            //         labelTextContent: labelTextContent,
-            //         labelImage: labelImage,
-            //         email: session.user.email,
-            //     }),
-            // });
             const response: any = await fetch(`/api/label/add`, {
                 method: 'POST',
                 body: formData,
                 cache: 'no-store'
             });
-
-            console.log(response);
 
             if (!response.ok) {
                 throw new Error(response.error);
