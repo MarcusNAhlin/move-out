@@ -38,4 +38,4 @@ next-env.d.ts
 
 # user images and sounds
 public/images/user-images
-public/images/user-sounds
+public/sounds/user-sounds

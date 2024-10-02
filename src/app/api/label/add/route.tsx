@@ -76,7 +76,8 @@ async function addLabel(req: NextRequest) {
             title: labelTitle,
             type: labelDesign as LabelType,
             text: labelTextContent || "",
-            imageName: image?.name || ""
+            imageName: image?.name || "",
+            soundName: labelSound?.name || "",
         }
 
         const newLabel = await addLabelToDB(label)
@@ -103,7 +104,7 @@ async function addLabel(req: NextRequest) {
         }
 
         if (labelSound) {
-            const soundPath = path.join(process.cwd(), "public", "sounds", "user-sounds", `${userId}`, `${newLabel.id}`, "sound.webm");
+            const soundPath = path.join(process.cwd(), "public", "sounds", "user-sounds", `${userId}`, `${newLabel.id}`, `${labelSound.name}`);
 
             try {
                 // Convert sound to buffer

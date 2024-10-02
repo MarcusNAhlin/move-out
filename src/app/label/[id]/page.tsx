@@ -64,9 +64,9 @@ export default function LabelPage() {
             label?.imageName && <Image src={`/images/user-images/${label?.userId}/${label?.id}/${label?.imageName}`} maw={"90vw"} w={"600px"} mt={"lg"} alt="Box content image" />
         }
         {
-            label && <>
-            <audio controls autoPlay>
-                <source src={`/sounds/user-sounds/${label?.userId}/${label?.id}/sound.webm`} type="audio/webm" />
+            label?.soundName && <>
+            <audio controls>
+                <source src={`/sounds/user-sounds/${label?.userId}/${label?.id}/${label.soundName}`} type="audio/webm" />
                 Your browser does not support the audio element.
             </audio>
             </>
