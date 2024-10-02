@@ -40,7 +40,7 @@ export interface Label {
     type: LabelType;
     text?: string | undefined;
     imageName?: string | undefined;
-    soundPath?: string | undefined;
+    soundName?: string | undefined;
     createdAt: Date;
     updatedAt: Date;
     user: User;
