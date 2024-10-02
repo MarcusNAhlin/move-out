@@ -68,4 +68,29 @@ describe('Label Add Page', () => {
         const textboxes = screen.getAllByRole('textbox');
         expect(textboxes.length).toBe(3);
     });
+
+    it('renders input image in form', async () => {
+        // Mock session data
+        (useSession as jest.Mock).mockReturnValue({
+            data: {
+                user: {
+                    email: "test@gmail.com"
+                }
+            },
+            status: 'authenticated',
+        });
+
+        // Render the Label component, save to container for later use
+        const { container } = render(
+            <MantineProvider>
+                <LabelAddPage />
+            </MantineProvider>
+        );
+
+        // Get the first element with the class name mantine-FileInput-input
+        const fileInput = container.getElementsByClassName("mantine-FileInput-input")[0];
+
+        // Assert
+        expect(fileInput).toBeInTheDocument();
+    });
 });
