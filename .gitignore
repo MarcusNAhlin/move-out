@@ -36,5 +36,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# user images
+# user images and sounds
 public/images/user-images
+public/images/user-sounds

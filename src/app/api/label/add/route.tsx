@@ -5,32 +5,29 @@ import { LabelType } from "@/lib/types";
 import fs from 'fs';
 import path from "path";
 
-interface Image {
-    size: number;
-    type: string;
-    name: string;
-    lastModified: number;
-}
-
 export const config = {
     api: {
-      bodyParser: false,
+        bodyParser: false,
     },
-  };
+};
 
 async function addLabel(req: NextRequest) {
     const prisma = new PrismaClient();
-    // const { labelTitle, labelDesign, labelTextContent, email, labelImage }:
-    //     { labelTitle: string, labelDesign: string, labelTextContent:string,  email: string, labelImage: any } = await req.json();
 
     const formData = await req.formData();
-    const image: any | null = formData.get("labelImage") as any;
     const labelTitle = formData.get("labelTitle") as string;
     const labelDesign = formData.get("labelDesign") as string;
     const labelTextContent = formData.get("labelTextContent") as string;
     const email = formData.get("email") as string;
+    const image: File | null = formData.get("labelImage") as File;
+    const labelSound: File | null = formData.get("labelSound") as File;
 
-    console.log(formData);
+
+    if (labelSound) {
+        if (labelSound.size > 10000000 || labelSound.type !== "audio/webm") {
+            return NextResponse.json({ message: "Sound too big!", error: true, status: 401, ok: false }, { status: 401 });
+        }
+    }
 
     if (image) {
         if (image.size > 10000000) {
@@ -79,7 +76,7 @@ async function addLabel(req: NextRequest) {
             title: labelTitle,
             type: labelDesign as LabelType,
             text: labelTextContent || "",
-            imageName: image.name || null
+            imageName: image?.name || ""
         }
 
         const newLabel = await addLabelToDB(label)
@@ -102,6 +99,25 @@ async function addLabel(req: NextRequest) {
             } catch (e) {
                 console.log(e);
                 return NextResponse.json({ message: "Error saving image!", error: true, status: 401, ok: false }, { status: 401 });
+            }
+        }
+
+        if (labelSound) {
+            const soundPath = path.join(process.cwd(), "public", "sounds", "user-sounds", `${userId}`, `${newLabel.id}`, "sound.webm");
+
+            try {
+                // Convert sound to buffer
+                const bytes = await labelSound.arrayBuffer();
+                const buffer = Buffer.from(bytes);
+
+                // Create directory if it doesn't exist
+                await fs.mkdirSync(path.join(process.cwd(), "public", "sounds", "user-sounds", `${userId}`, `${newLabel.id}`), { recursive: true });
+
+                // Save sound
+                await fs.writeFileSync(soundPath, buffer);
+            } catch (e) {
+                console.log(e);
+                return NextResponse.json({ message: "Error saving sound!", error: true, status: 401, ok: false }, { status: 401 });
             }
         }
 
