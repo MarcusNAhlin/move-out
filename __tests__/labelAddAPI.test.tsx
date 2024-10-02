@@ -121,4 +121,31 @@ describe('Label add API', () => {
             updatedAt: updatedAt
         });
     });
+
+    it('returns an error if image is too big', async () => {
+        const formData = new FormData();
+        formData.append("email", "test@gmail.com");
+        formData.append("labelTitle", "test");
+        formData.append("labelDesign", "NORMAL");
+
+        // Create blob with size 10.1 MB (too big)
+        const blob = new Blob([new Uint8Array(10100000)], { type: 'image/jpeg' });
+        const file = new File([blob], "TestImage.jpg", { type: 'image/jpeg' });
+        formData.append("labelImage", file);
+
+        const req = {
+            formData: jest.fn().mockResolvedValue(formData),
+        } as unknown as NextRequest;
+
+        const res = {} as NextResponse;
+
+        const response = await POST(req);
+
+        expect(NextResponse.json).toHaveBeenCalledWith({
+            message: "Image too big!",
+            error: true,
+            status: 401,
+            ok: false,
+        }, { status: 401});
+    });
 });
