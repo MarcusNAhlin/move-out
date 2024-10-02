@@ -21,11 +21,12 @@ describe('Label add API', () => {
     });
 
     it('returns an error if email is missing', async () => {
+        const formData = new FormData();
+        formData.append("labelTitle", "test");
+        formData.append("labelDesign", "NORMAL");
+
         const req = {
-            json: jest.fn().mockResolvedValue({
-                labelTitle: "test",
-                labelDesign: "NORMAL"
-            }),
+            formData: jest.fn().mockResolvedValue(formData),
         } as unknown as NextRequest;
 
         const res = {} as NextResponse;
@@ -37,15 +38,16 @@ describe('Label add API', () => {
             error: true,
             status: 401,
             ok: false,
-        });
+        }, { status: 401 });
     });
 
     it('returns an error if labelTitle is missing', async () => {
+        const formData = new FormData();
+        formData.append("email", "test@gmail.com");
+        formData.append("labelDesign", "NORMAL");
+
         const req = {
-            json: jest.fn().mockResolvedValue({
-                email: "test@gmail.com",
-                labelDesign: "NORMAL"
-            }),
+            formData: jest.fn().mockResolvedValue(formData),
         } as unknown as NextRequest;
 
         const res = {} as NextResponse;
@@ -57,15 +59,16 @@ describe('Label add API', () => {
             error: true,
             status: 401,
             ok: false,
-        });
+        }, { status: 401 });
     });
 
     it('returns an error if labelDesign is missing', async () => {
+        const formData = new FormData();
+        formData.append("email", "test@gmail.com");
+        formData.append("labelTitle", "test");
+
         const req = {
-            json: jest.fn().mockResolvedValue({
-                email: "test@gmail.com",
-                labelTitle: "test"
-            }),
+            formData: jest.fn().mockResolvedValue(formData),
         } as unknown as NextRequest;
 
         const res = {} as NextResponse;
@@ -77,7 +80,7 @@ describe('Label add API', () => {
             error: true,
             status: 401,
             ok: false,
-        });
+        }, { status: 401});
     });
 
     it('returns success when creating label', async () => {
@@ -98,7 +101,7 @@ describe('Label add API', () => {
             title: "test label",
             text: "",
             type: "NORMAL" as LabelType,
-            picturePath: "",
+            imageName: "",
             soundPath: "",
             createdAt: createdAt,
             updatedAt: updatedAt
@@ -112,7 +115,7 @@ describe('Label add API', () => {
             title: "test label",
             text: "",
             type: "NORMAL" as LabelType,
-            picturePath: "",
+            imageName: "",
             soundPath: "",
             createdAt: createdAt,
             updatedAt: updatedAt
