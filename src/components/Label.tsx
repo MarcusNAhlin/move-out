@@ -102,7 +102,7 @@ export default function label({ label, width="20rem", printBtn=false }: any) {
             </div>
             {
                 printBtn &&
-                <Button onClick={printLabel}>Print</Button>
+                <Button onClick={printLabel} mt={"sm"}>Print</Button>
             }
         </>
     )
