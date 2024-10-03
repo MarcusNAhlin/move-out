@@ -31,7 +31,11 @@ export default function Home() {
             </Text>
             {
               status === "authenticated" ?
-              <Button onClick={() => signOut()}>Sign Out</Button>
+              // <Button onClick={() => signOut()}>Sign Out</Button>
+              <Button
+                component="a"
+                href="/profile"
+              >Visit Profile</Button>
               :
               <Button onClick={() => signIn()}>Sign In</Button>
             }
