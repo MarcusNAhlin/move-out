@@ -93,4 +93,28 @@ describe('Label Add Page', () => {
         // Assert
         expect(fileInput).toBeInTheDocument();
     });
+
+    it('renders sound input in form', async () => {
+        // Mock session data
+        (useSession as jest.Mock).mockReturnValue({
+            data: {
+                user: {
+                    email: "test@gmail.com"
+                }
+            },
+            status: 'authenticated',
+        });
+
+        // Render the Label component, save to container for later use
+        const { container } = render(
+            <MantineProvider>
+                <LabelAddPage />
+            </MantineProvider>
+        );
+
+        const soundInput = container.querySelector("#audio-recording");
+
+        // Assert
+        expect(soundInput).toBeInTheDocument();
+    });
 });
