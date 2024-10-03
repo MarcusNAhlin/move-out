@@ -1,6 +1,6 @@
 "use client"
 import { Button, Flex, Text, Title } from "@mantine/core";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import LabelHolder from "@/components/LabelHolder";
 
 export default function Home() {
@@ -31,7 +31,6 @@ export default function Home() {
             </Text>
             {
               status === "authenticated" ?
-              // <Button onClick={() => signOut()}>Sign Out</Button>
               <Button
                 component="a"
                 href="/profile"
