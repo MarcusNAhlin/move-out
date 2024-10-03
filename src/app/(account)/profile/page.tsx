@@ -34,7 +34,10 @@ export default function Profile() {
                 <Title order={1}>Profile</Title>
                 <Text m={"0"} p={"0"}>Welcome, {session?.user?.email}!</Text>
                 <Button m={"auto"} mb={"sm"} mt={"sm"} radius={"sm"} w={"12rem"} display={"block"} onClick={() => signOut()}>Sign Out</Button>
-                <Button m={"auto"} mb={"sm"} mt={"sm"} radius={"sm"} color="red" w={"9rem"} display={"block"}>Delete Account</Button>
+                <Button
+                    component="a"
+                    href="/profile/delete-account"
+                    m={"auto"} mb={"sm"} mt={"sm"} radius={"sm"} color="red" w={"9rem"} display={"block"}>Delete Account</Button>
             </div>
         );
     }

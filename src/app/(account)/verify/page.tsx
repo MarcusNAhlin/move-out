@@ -6,34 +6,46 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState, Suspense } from "react";
 
 function VerifyPageContent() {
-    let token = null;
-
     const searchParams = useSearchParams();
-    token = searchParams.get('token');
+    const token = searchParams.get('token');
 
     const [status, setStatus] = useState('Fetching token...');
 
+    async function getToken() {
+        const response = await fetch('/api/authenticate/token', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ inputToken: token }),
+        });
+
+        const data = await response.json();
+
+        console.log(data);
+
+        if (data.ok) {
+            setStatus('Mail verified!');
+        } else {
+            setStatus('Mail verification failed');
+        }
+
+        return data;
+    }
+
     useEffect(() => {
+        if (status !== 'Fetching token...') {
+            return;
+        }
+
         if (!token) {
             setStatus('Invalid token');
-        } else {
-            fetch('/api/authenticate/token', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ inputToken: token }),
-            }
-        )
-        .then((res) => res.json())
-        .then((data) => {
-            if (data.ok) {
-                setStatus('Token verified!');
-            } else {
-                setStatus('Token verification failed');
-            }
-        })
-    }
+        }
+
+        if (token) {
+            console.log("has token");
+            getToken();
+        }
     }, [token])
 
     return (
