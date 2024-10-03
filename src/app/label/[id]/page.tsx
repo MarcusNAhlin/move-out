@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react';
 import { Label as LabelInterface } from "@/lib/types";
 import Label from "@/components/Label";
+import BackBtn from '@/components/BackBtn';
 
 export default function LabelPage() {
     const router = useParams();
@@ -44,6 +45,7 @@ export default function LabelPage() {
 
     return (
         <>
+        <BackBtn text="&larr;" href="/" icon />
         {
             message && <Text>{message}</Text>
         }

@@ -67,7 +67,6 @@ export default function label({ label, width="20rem", printBtn=false }: any) {
 
     return(
         <>
-            <BackBtn text="&larr;" href="/" icon />
             <div
                 style={{
                     width: width,

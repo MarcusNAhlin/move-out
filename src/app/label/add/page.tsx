@@ -1,5 +1,6 @@
 "use client";
 
+import BackBtn from "@/components/BackBtn";
 import { Alert, Button, FileInput, Flex, Group, Select, TextInput, Textarea } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useSession } from "next-auth/react";
@@ -129,6 +130,8 @@ export default function LabelAddPage() {
         {
             status === "authenticated" ?
             <>
+                <BackBtn text="&larr;" href="/" icon />
+
                 <h1>Add Label</h1>
                 <form onSubmit={form.onSubmit(handleFormSubmit)} style={{
                     textAlign: "left",
