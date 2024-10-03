@@ -88,15 +88,12 @@ describe('Home Page', () => {
         );
 
         const expectedText = "Welcome, test@gmail.com"
-        const buttonText = "Sign Out"
 
         // Assert
         expect(await screen.getByText(expectedText)).toBeInTheDocument();
-        expect(await screen.getByRole("button")).toBeInTheDocument();
-        expect(await screen.getByText(buttonText)).toBeInTheDocument();
     });
 
-    it('renders sign out btn if signed in', async () => {
+    it('renders visit profile btn if signed in', async () => {
         // Mock session data
         (useSession as jest.Mock).mockReturnValue({
             data: {
@@ -114,10 +111,7 @@ describe('Home Page', () => {
             </MantineProvider>
         );
 
-        const buttonText = "Sign Out"
-
         // Assert
-        expect(await screen.getByRole("button")).toBeInTheDocument();
-        expect(await screen.getByText(buttonText)).toBeInTheDocument();
+        expect(await screen.getByRole("link", { name: "Visit Profile"})).toBeInTheDocument();
     });
 });

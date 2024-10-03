@@ -71,10 +71,8 @@ describe('Label Page', () => {
             </MantineProvider>
         );
 
-        const buttonText = "+"
 
         // Assert
-        expect(await screen.getByRole("button")).toBeInTheDocument();
-        expect(await screen.getByText(buttonText)).toBeInTheDocument();
+        expect(await screen.getByRole("link", { name: "+"})).toBeInTheDocument();
     });
 });
