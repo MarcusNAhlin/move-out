@@ -17,6 +17,7 @@ export default function LabelAddPage() {
     const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
     const [chunks, setChunks] = useState<Blob[]>([]);
     const [blob, setBlob] = useState<Blob | null>(null);
+    const [audioURL, setAudioURL] = useState<string | null>(null);
 
     // For linter
     chunks;
@@ -92,9 +93,14 @@ export default function LabelAddPage() {
                 // Ensure latest data, removes issues with states
                 setChunks((prevChunks) => {
                     const blob = new Blob(prevChunks, { type: 'audio/webm' });
-                    // const url = window.URL.createObjectURL(blob);
+                    const url = window.URL.createObjectURL(blob);
+                    setAudioURL(url);
 
                     setBlob(blob);
+
+                    const audioPlayer = document.getElementById('audio-recording') as HTMLAudioElement;
+
+                    audioPlayer.src = url;
 
                     return prevChunks;
                 });
