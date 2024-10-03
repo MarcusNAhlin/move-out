@@ -148,4 +148,31 @@ describe('Label add API', () => {
             ok: false,
         }, { status: 401, statusText: "Image too big!" });
     });
+
+    it('returns an error if sound is too big', async () => {
+        const formData = new FormData();
+        formData.append("email", "test@gmail.com");
+        formData.append("labelTitle", "test");
+        formData.append("labelDesign", "NORMAL");
+
+        // Create blob with size 10.1 MB (too big)
+        const blob = new Blob([new Uint8Array(10100000)], { type: 'audio/webm' });
+        const file = new File([blob], "sound.webm", { type: 'audio/webm' });
+        formData.append("labelSound", file);
+
+        const req = {
+            formData: jest.fn().mockResolvedValue(formData),
+        } as unknown as NextRequest;
+
+        const res = {} as NextResponse;
+
+        const response = await POST(req);
+
+        expect(NextResponse.json).toHaveBeenCalledWith({
+            message: "Sound too big!",
+            error: true,
+            status: 401,
+            ok: false,
+        }, { status: 401, statusText: "Sound too big!" });
+    });
 });
