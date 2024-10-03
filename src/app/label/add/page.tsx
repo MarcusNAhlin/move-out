@@ -1,7 +1,7 @@
 "use client";
 
 import BackBtn from "@/components/BackBtn";
-import { Alert, Button, FileInput, Flex, Group, Select, TextInput, Textarea } from "@mantine/core";
+import { Alert, Button, FileInput, Flex, Group, Select, TextInput, Textarea, Title } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -136,7 +136,7 @@ export default function LabelAddPage() {
             <>
                 <BackBtn text="&larr;" href="/" icon />
 
-                <h1>Add Label</h1>
+                <Title order={1}>Add Label</Title>
                 <form onSubmit={form.onSubmit(handleFormSubmit)} style={{
                     textAlign: "left",
                 }}>
@@ -198,7 +198,8 @@ export default function LabelAddPage() {
                 </form>
             </> :
             <>
-                <h1>You need to log in to add labels</h1>
+                <BackBtn text="&larr;" href="/" icon />
+                <Title order={1}>You need to log in to add labels</Title>
             </>
         }
         </>
