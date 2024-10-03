@@ -57,8 +57,7 @@ export default function LabelAddPage() {
         try {
             const response: any = await fetch(`/api/label/add`, {
                 method: 'POST',
-                body: formData,
-                cache: 'no-store'
+                body: formData
             });
 
             if (!response.ok) {

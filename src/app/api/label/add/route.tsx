@@ -25,26 +25,26 @@ async function addLabel(req: NextRequest) {
 
     if (labelSound) {
         if (labelSound.size > 10000000 || labelSound.type !== "audio/webm") {
-            return NextResponse.json({ message: "Sound too big!", error: true, status: 401, ok: false }, { status: 401 });
+            return NextResponse.json({ message: "Sound too big!", error: true, status: 401, ok: false }, { status: 401, statusText: "Sound too big!" });
         }
     }
 
     if (image) {
         if (image.size > 10000000) {
-            return NextResponse.json({ message: "Image too big!", error: true, status: 401, ok: false }, { status: 401 });
+            return NextResponse.json({ message: "Image too big!", error: true, status: 401, ok: false }, { status: 401, statusText: "Image too big!" });
         }
     }
 
     if (!labelTitle) {
-        return NextResponse.json({ message: "No label title provided!", error: true, status: 401, ok: false }, { status: 401 });
+        return NextResponse.json({ message: "No label title provided!", error: true, status: 401, ok: false }, { status: 401, statusText: "No label title provided!" });
     }
 
     if (!labelDesign) {
-        return NextResponse.json({ message: "No label design provided!", error: true, status: 401, ok: false }, { status: 401 });
+        return NextResponse.json({ message: "No label design provided!", error: true, status: 401, ok: false }, { status: 401, statusText: "No label design provided!" });
     }
 
     if (!email) {
-        return NextResponse.json({ message: "No email provided!", error: true, status: 401, ok: false }, { status: 401 });
+        return NextResponse.json({ message: "No email provided!", error: true, status: 401, ok: false }, { status: 401, statusText: "No email provided!" });
     }
 
     let userId: number | null = null;
@@ -65,7 +65,7 @@ async function addLabel(req: NextRequest) {
 
         userId = user.id;
     } catch (e) {
-        return NextResponse.json({ message: "User not found!", error: true, status: 401, ok: false }, { status: 401 });
+        return NextResponse.json({ message: "User not found!", error: true, status: 401, ok: false }, { status: 401, statusText: "User not found!" });
     }
 
 
@@ -77,7 +77,7 @@ async function addLabel(req: NextRequest) {
             type: labelDesign as LabelType,
             text: labelTextContent || "",
             imageName: image?.name || "",
-            soundName: labelSound?.name || "",
+            soundName: labelSound ? "sound" : "",
         }
 
         const newLabel = await addLabelToDB(label)
@@ -99,13 +99,12 @@ async function addLabel(req: NextRequest) {
                 await fs.writeFileSync(imagePath, buffer);
             } catch (e) {
                 console.log(e);
-                return NextResponse.json({ message: "Error saving image!", error: true, status: 401, ok: false }, { status: 401 });
+                return NextResponse.json({ message: "Error saving image!", error: true, status: 401, ok: false }, { status: 401, statusText: "Error saving image!" });
             }
         }
 
         if (labelSound) {
-            const soundPath = path.join(process.cwd(), "public", "sounds", "user-sounds", `${userId}`, `${newLabel.id}`, `${labelSound.name}`);
-
+            const soundPath = path.join(process.cwd(), "public", "sounds", "user-sounds", `${userId}`, `${newLabel.id}`, `sound.webm`);
             try {
                 // Convert sound to buffer
                 const bytes = await labelSound.arrayBuffer();
@@ -118,16 +117,16 @@ async function addLabel(req: NextRequest) {
                 await fs.writeFileSync(soundPath, buffer);
             } catch (e) {
                 console.log(e);
-                return NextResponse.json({ message: "Error saving sound!", error: true, status: 401, ok: false }, { status: 401 });
+                return NextResponse.json({ message: "Error saving sound!", error: true, status: 401, ok: false }, { status: 401, statusText: "Error saving sound!" });
             }
         }
 
-        return NextResponse.json({ message: "Label created!", error: false, status: 200, ok: true }, { status: 200 });
+        return NextResponse.json({ message: "Label created!", error: false, status: 200, ok: true }, { status: 200, statusText: "Label created!" });
     } catch (e) {
-        return NextResponse.json({ message: "Error creating label!", error: true, status: 401, ok: false }, { status: 401 });
+        return NextResponse.json({ message: "Error creating label!", error: true, status: 401, ok: false }, { status: 401, statusText: "Error creating label!" });
     }
 
-    return NextResponse.json({ message: "Error creating label!", error: true, status: 401, ok: false }, { status: 401 });
+    return NextResponse.json({ message: "Error creating label!", error: true, status: 401, ok: false }, { status: 401, statusText: "Error creating label!" });
 }
 
 export { addLabel as POST };

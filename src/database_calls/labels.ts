@@ -7,8 +7,8 @@ interface LabelInterface {
     title: string;
     type: LabelType;
     text?: string;
-    picturePath?: string;
-    soundPath?: string;
+    imageName?: string;
+    soundName?: string;
     createdAt?: Date;
     updatedAt?: Date;
 }
@@ -19,6 +19,7 @@ export async function addLabel(label: LabelInterface) {
             data: label
         });
     } catch (e: any) {
+        console.log(e);
         throw new Error(e);
     }
 }

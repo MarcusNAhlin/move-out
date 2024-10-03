@@ -66,7 +66,7 @@ export default function LabelPage() {
         {
             label?.soundName && <>
             <audio controls>
-                <source src={`/sounds/user-sounds/${label?.userId}/${label?.id}/${label.soundName}`} type="audio/webm" />
+                <source src={`/sounds/user-sounds/${label?.userId}/${label?.id}/${label.soundName}.webm`} type="audio/webm" />
                 Your browser does not support the audio element.
             </audio>
             </>
