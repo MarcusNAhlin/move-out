@@ -38,7 +38,7 @@ describe('Label add API', () => {
             error: true,
             status: 401,
             ok: false,
-        }, { status: 401 });
+        }, { status: 401, statusText: "No email provided!" });
     });
 
     it('returns an error if labelTitle is missing', async () => {
@@ -59,7 +59,7 @@ describe('Label add API', () => {
             error: true,
             status: 401,
             ok: false,
-        }, { status: 401 });
+        }, { status: 401, statusText: "No label title provided!" });
     });
 
     it('returns an error if labelDesign is missing', async () => {
@@ -80,7 +80,7 @@ describe('Label add API', () => {
             error: true,
             status: 401,
             ok: false,
-        }, { status: 401});
+        }, { status: 401, statusText: "No label design provided!" });
     });
 
     it('returns success when creating label', async () => {
@@ -146,6 +146,6 @@ describe('Label add API', () => {
             error: true,
             status: 401,
             ok: false,
-        }, { status: 401});
+        }, { status: 401, statusText: "Image too big!" });
     });
 });
