@@ -102,7 +102,7 @@ describe('Label add API', () => {
             text: "",
             type: "NORMAL" as LabelType,
             imageName: "",
-            soundPath: "",
+            soundName: "",
             createdAt: createdAt,
             updatedAt: updatedAt
         };
@@ -116,7 +116,7 @@ describe('Label add API', () => {
             text: "",
             type: "NORMAL" as LabelType,
             imageName: "",
-            soundPath: "",
+            soundName: "",
             createdAt: createdAt,
             updatedAt: updatedAt
         });
