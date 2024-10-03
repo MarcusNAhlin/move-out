@@ -1,6 +1,5 @@
 import { Button, Text, Title } from "@mantine/core";
 import QRCode from "@/components/QRCode";
-import BackBtn from "@/components/BackBtn";
 
 export default function label({ label, width="20rem", printBtn=false }: any) {
 
