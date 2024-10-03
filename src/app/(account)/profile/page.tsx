@@ -1,12 +1,10 @@
 "use client";
 
 import { signIn, signOut, useSession } from "next-auth/react";
-import { useState } from "react";
 import BackBtn from "@/components/BackBtn";
-import { Button, Flex, Skeleton, Text, Title } from "@mantine/core";
+import { Button, Skeleton, Text, Title } from "@mantine/core";
 
 export default function Profile() {
-    const [loading, setLoading] = useState(true);
     const { data: session, status } = useSession();
 
     if (status === "loading") {
