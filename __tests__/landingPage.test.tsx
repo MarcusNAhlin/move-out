@@ -28,7 +28,7 @@ describe('Home Page', () => {
         expect(header);
     });
 
-    it('renders "not signed in" if not', async () => {
+    it('renders "not logged in" if not', async () => {
         // Mock session data
         (useSession as jest.Mock).mockReturnValue({
             data: null,
@@ -42,7 +42,7 @@ describe('Home Page', () => {
             </MantineProvider>
         );
 
-        const notSignedInText = "You are not signed in";
+        const notSignedInText = "You are not logged in";
 
         // Assert
         expect(await screen.getByText(notSignedInText)).toBeInTheDocument();
