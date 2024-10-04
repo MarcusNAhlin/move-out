@@ -1,4 +1,4 @@
-import { EmailTemplate } from '@/components/EmailTemplate';
+import { VerifyEmailTemplate } from '@/components/VerifyEmailTemplate';
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
@@ -18,7 +18,7 @@ async function sendEmail(req: NextRequest) {
             from: `${process.env.FROM_EMAIL}`,
             to: [email],
             subject: 'Verify Account MoveOut',
-            react: EmailTemplate({ token: token }),
+            react: VerifyEmailTemplate({ token: token }),
         });
 
         if (error) {

@@ -4,7 +4,7 @@ interface EmailTemplateProps {
     token: string;
 }
 
-export const EmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
+export const VerifyEmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
     token
 }) => (
     <div>
