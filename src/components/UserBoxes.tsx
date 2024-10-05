@@ -10,7 +10,7 @@ interface Label {
     title: string;
 }
 
-export default function UserLabels() {
+export default function UserBoxes() {
     const { data: session } = useSession();
     const [labels, setLabels] = useState<Label[]>([]);
 
@@ -21,7 +21,7 @@ export default function UserLabels() {
                 }
 
                 try {
-                    const data = await fetch(`/api/label/get?email=${session.user.email}`, {
+                    const data = await fetch(`/api/box/get?email=${session.user.email}`, {
                         method: "GET",
                     });
 
@@ -42,7 +42,7 @@ export default function UserLabels() {
         {
             labels ? labels.map((label) => {
                 return (
-                    <a href={`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/label/${label.id}`} key={label.id}>
+                    <a href={`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/box/${label.id}`} key={label.id}>
                         <Label label={label} width="15rem" />
                     </a>
                 )

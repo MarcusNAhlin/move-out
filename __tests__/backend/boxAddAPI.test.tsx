@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { POST } from '@/app/api/label/add/route';
+import { POST } from '@/app/api/box/add/route';
 import { prismaMock } from '../../singleton';
-import { addLabel } from '@/database_calls/labels';
+import { addBox } from '@/database_calls/boxes';
 
 type LabelType = "NORMAL" | "FRAGILE" | "HAZARDOUS";
 
@@ -109,7 +109,7 @@ describe('Label add API', () => {
 
         prismaMock.label.create.mockResolvedValue(label);
 
-        await expect(addLabel(label)).resolves.toEqual({
+        await expect(addBox(label)).resolves.toEqual({
             id: "291b8587-314c-4ab7-ac17-76fb9048c328",
             userId: 1,
             title: "test label",

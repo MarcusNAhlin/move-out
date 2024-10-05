@@ -56,7 +56,7 @@ export default function LabelAddPage() {
         }
 
         try {
-            const response: any = await fetch(`/api/label/add`, {
+            const response: any = await fetch(`/api/box/add`, {
                 method: 'POST',
                 body: formData
             });
@@ -136,15 +136,15 @@ export default function LabelAddPage() {
             <>
                 <BackBtn text="&larr;" href="/" icon />
 
-                <Title order={1}>Add Label</Title>
+                <Title order={1}>Add Box</Title>
                 <form onSubmit={form.onSubmit(handleFormSubmit)} style={{
                     textAlign: "left",
                 }}>
                     <TextInput
                         mb={"sm"}
-                        label="Label Title"
+                        label="Box Title"
                         id="labelTitle"
-                        placeholder="Enter a label title"
+                        placeholder="Enter a box title"
                         required
                         key={form.key('labelTitle')}
                         {...form.getInputProps('labelTitle')}
@@ -161,7 +161,7 @@ export default function LabelAddPage() {
                     <Textarea
                         mb={"sm"}
                         label="Box Content"
-                        placeholder={`Item 1\nItem 2\nItem 3\nItem 4\nItem 5`}
+                        placeholder={`Item 1\nItem 2\nItem 3\nItem 4\n...`}
                         minRows={5}
                         autosize
                         key={form.key('labelTextContent')}
@@ -193,13 +193,13 @@ export default function LabelAddPage() {
                         </Alert> : <></>
                     }
                     <Group justify="flex-end" mt="md">
-                        <Button type="submit" loading={addingLabel}>Add Label</Button>
+                        <Button type="submit" loading={addingLabel}>Add Box</Button>
                     </Group>
                 </form>
             </> :
             <>
                 <BackBtn text="&larr;" href="/" icon />
-                <Title order={1}>You need to log in to add labels</Title>
+                <Title order={1}>You need to log in to add boxes</Title>
             </>
         }
         </>

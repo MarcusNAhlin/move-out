@@ -19,7 +19,7 @@ export default function LabelPage() {
     useEffect(() => {
         async function getLabel() {
             try {
-                const response = await fetch(`/api/label/get/getSpecific?labelId=${id}`, {
+                const response = await fetch(`/api/box/get/getSpecific?labelId=${id}`, {
                     method: "GET",
                 });
 

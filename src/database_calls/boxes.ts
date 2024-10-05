@@ -13,7 +13,7 @@ interface LabelInterface {
     updatedAt?: Date;
 }
 
-export async function addLabel(label: LabelInterface) {
+export async function addBox(label: LabelInterface) {
     try {
         return await prisma.label.create({
             data: label

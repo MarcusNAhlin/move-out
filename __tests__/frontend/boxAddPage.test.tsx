@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { MantineProvider } from '@mantine/core';
 import { useSession } from 'next-auth/react';
-import LabelAddPage from '@/app/label/add/page';
+import BoxAddPage from '@/app/box/add/page';
 
 // Mock the `useSession` hook from next-auth/react
 jest.mock('next-auth/react');
@@ -16,8 +16,8 @@ jest.mock("next/navigation", () => ({
     }
 }));
 
-describe('Label Add Page', () => {
-    it('renders label add header', async () => {
+describe('box Add Page', () => {
+    it('renders box add header', async () => {
         // Mock session data
         (useSession as jest.Mock).mockReturnValue({
             data: {
@@ -28,14 +28,14 @@ describe('Label Add Page', () => {
             status: 'authenticated',
         });
 
-        // Render the Label component
+        // Render the box component
         render(
             <MantineProvider>
-                <LabelAddPage />
+                <BoxAddPage />
             </MantineProvider>
         );
 
-        const titleText = "Add Label";
+        const titleText = "Add Box";
         const titelTextElements = await screen.getAllByText(titleText);
 
         // Assert
@@ -55,10 +55,10 @@ describe('Label Add Page', () => {
             status: 'authenticated',
         });
 
-        // Render the Label component
+        // Render the box component
         render(
             <MantineProvider>
-                <LabelAddPage />
+                <BoxAddPage />
             </MantineProvider>
         );
 
@@ -80,10 +80,10 @@ describe('Label Add Page', () => {
             status: 'authenticated',
         });
 
-        // Render the Label component, save to container for later use
+        // Render the box component, save to container for later use
         const { container } = render(
             <MantineProvider>
-                <LabelAddPage />
+                <BoxAddPage />
             </MantineProvider>
         );
 
@@ -105,10 +105,10 @@ describe('Label Add Page', () => {
             status: 'authenticated',
         });
 
-        // Render the Label component, save to container for later use
+        // Render the box component, save to container for later use
         const { container } = render(
             <MantineProvider>
-                <LabelAddPage />
+                <BoxAddPage />
             </MantineProvider>
         );
 

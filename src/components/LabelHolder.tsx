@@ -1,6 +1,6 @@
 import { Flex, Skeleton, Title } from "@mantine/core";
-import AddLabelBtn from "@/components/AddLabelBtn";
-import UserLabels from "@/components/UserLabels";
+import AddBoxBtn from "@/components/AddBoxBtn";
+import UserBoxes from "@/components/UserBoxes";
 
 export default function labelHolder({ status }: { status: string }) {
 
@@ -10,7 +10,7 @@ export default function labelHolder({ status }: { status: string }) {
                 <Flex p={"lg"} bg={"gray"} mt={"lg"} direction={"column"} align={"flex-start"} mih={"70vh"}>
                     <Flex  align={"center"} gap={"sm"}>
                         <Title order={2}>Labels</Title>
-                        <AddLabelBtn />
+                        <AddBoxBtn />
                     </Flex>
                     <Flex gap={"lg"} mt={"lg"} wrap={"wrap"} w={"100%"} justify={"center"}>
                         <Skeleton width={"15rem"} height={"20rem"} />
@@ -30,9 +30,9 @@ export default function labelHolder({ status }: { status: string }) {
             <Flex p={"lg"} bg={"gray"} mt={"lg"} direction={"column"} align={"flex-start"} mih={"70vh"}>
                 <Flex  align={"center"} gap={"sm"}>
                     <Title order={2}>Labels</Title>
-                    <AddLabelBtn />
+                    <AddBoxBtn />
                 </Flex>
-                <UserLabels />
+                <UserBoxes />
             </Flex>
             </>
         )
@@ -44,7 +44,7 @@ export default function labelHolder({ status }: { status: string }) {
             <Flex p={"lg"} bg={"gray"} mt={"lg"} direction={"column"} align={"flex-start"} mih={"70vh"}>
                 <Flex  align={"center"} gap={"sm"}>
                     <Title order={2}>Labels</Title>
-                    <AddLabelBtn />
+                    <AddBoxBtn />
                 </Flex>
             </Flex>
             </>

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
-import { addLabel as addLabelToDB } from "@/database_calls/labels";
+import { addBox as addBoxToDB } from "@/database_calls/boxes";
 import { LabelType } from "@/lib/types";
 import fs from 'fs';
 import path from "path";
@@ -80,7 +80,7 @@ async function addLabel(req: NextRequest) {
             soundName: labelSound ? "sound" : "",
         }
 
-        const newLabel = await addLabelToDB(label)
+        const newLabel = await addBoxToDB(label)
 
         let imagePath: string | null = null;
 

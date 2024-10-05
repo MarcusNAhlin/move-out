@@ -96,7 +96,7 @@ export default function label({ label, width="20rem", printBtn=false }: any) {
                         fontSize: "4rem"
                     }}
                 >{icon}</Text>
-                <QRCode link={process.env.NEXT_PUBLIC_NEXTAUTH_URL + "/label/" + label.id} size={width/2} />
+                <QRCode link={process.env.NEXT_PUBLIC_NEXTAUTH_URL + "/box/" + label.id} size={width/2} />
             </div>
             {
                 printBtn &&
