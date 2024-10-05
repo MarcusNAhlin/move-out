@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { MantineProvider } from '@mantine/core';
 import { useSession } from 'next-auth/react';
-import LabelAddPage from '../src/app/label/add/page';
+import LabelAddPage from '@/app/label/add/page';
 
 // Mock the `useSession` hook from next-auth/react
 jest.mock('next-auth/react');

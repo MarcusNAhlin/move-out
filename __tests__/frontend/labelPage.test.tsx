@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { MantineProvider } from '@mantine/core';
 import { useSession } from 'next-auth/react';
-import Home from '../src/app/page';
+import Home from '@/app/page';
 
 // Mock the `useSession` hook from next-auth/react
 jest.mock('next-auth/react');

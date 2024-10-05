@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { POST } from '../src/app/api/authenticate/route';
+import { POST } from '../../src/app/api/authenticate/route';
 
 // Mock NextResponse
 jest.mock('next/server', () => ({

@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { MantineProvider } from '@mantine/core';
 import { useSession } from 'next-auth/react';
-import RegisterPage from '../src/app/(account)/register/page';
+import LoginPage from '@/app/(account)/login/page';
 
 // Mock the useSession
 jest.mock('next-auth/react');
@@ -27,7 +27,7 @@ describe('Login Page', () => {
         // Render the Home component
         render(
             <MantineProvider>
-                <RegisterPage />
+                <LoginPage />
             </MantineProvider>
         );
 
@@ -38,7 +38,7 @@ describe('Login Page', () => {
         expect(header);
     });
 
-    it("renders register form with three inputs and a submit btn", () => {
+    it("renders login form with two inputs and a submit btn", () => {
         // Mock session data
         (useSession as jest.Mock).mockReturnValue({
             data: null,
@@ -48,7 +48,7 @@ describe('Login Page', () => {
         // Render the Home component
         render(
             <MantineProvider>
-                <RegisterPage />
+                <LoginPage />
             </MantineProvider>
         );
 
@@ -61,10 +61,8 @@ describe('Login Page', () => {
 
         // Assert two input fields
         const emailInput = screen.getByLabelText('Email');
-        const passwordInput1 = screen.getByLabelText('Password');
-        const passwordInput2 = screen.getByLabelText('Verify Password');
+        const passwordInput = screen.getByLabelText('Password');
         expect(emailInput).toBeInTheDocument();
-        expect(passwordInput1).toBeInTheDocument();
-        expect(passwordInput2).toBeInTheDocument();
+        expect(passwordInput).toBeInTheDocument();
     });
 });

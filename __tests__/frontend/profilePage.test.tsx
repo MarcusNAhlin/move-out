@@ -2,74 +2,13 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { MantineProvider } from '@mantine/core';
 import { useSession } from 'next-auth/react';
-import Home from '../src/app/page';
+import ProfilePage from '@/app/(account)/profile/page';
 
 // Mock the `useSession` hook from next-auth/react
 jest.mock('next-auth/react');
 
-describe('Home Page', () => {
-    it('renders an h1 header', () => {
-        // Mock session data
-        (useSession as jest.Mock).mockReturnValue({
-            data: null,
-            status: 'unauthenticated',
-        });
-
-        // Render the Home component
-        render(
-            <MantineProvider>
-                <Home />
-            </MantineProvider>
-        );
-
-        const header = screen.getByRole('heading', { level: 1 });
-
-        // Assert
-        expect(header);
-    });
-
-    it('renders "not logged in" if not', async () => {
-        // Mock session data
-        (useSession as jest.Mock).mockReturnValue({
-            data: null,
-            status: 'unauthenticated',
-        });
-
-        // Render the Home component
-        render(
-            <MantineProvider>
-                <Home />
-            </MantineProvider>
-        );
-
-        const notSignedInText = "You are not logged in";
-
-        // Assert
-        expect(await screen.getByText(notSignedInText)).toBeInTheDocument();
-    });
-
-    it('renders login button if not signed in', async () => {
-        // Mock session data
-        (useSession as jest.Mock).mockReturnValue({
-            data: null,
-            status: 'unauthenticated',
-        });
-
-        // Render the Home component
-        render(
-            <MantineProvider>
-                <Home />
-            </MantineProvider>
-        );
-
-        const buttonText = "Sign In";
-
-        // Assert
-        expect(await screen.getByRole("button")).toBeInTheDocument();
-        expect(await screen.getByText(buttonText)).toBeInTheDocument();
-    });
-
-    it('renders email if signed in', async () => {
+describe('Profile Page', () => {
+    it('renders profile header', async () => {
         // Mock session data
         (useSession as jest.Mock).mockReturnValue({
             data: {
@@ -83,17 +22,18 @@ describe('Home Page', () => {
         // Render the Home component
         render(
             <MantineProvider>
-                <Home />
+                <ProfilePage />
             </MantineProvider>
         );
 
-        const expectedText = "Welcome, test@gmail.com"
+        const profileText = "Profile";
 
         // Assert
-        expect(await screen.getByText(expectedText)).toBeInTheDocument();
+        expect(await screen.getByRole('heading', { level: 1 }));
+        expect(await screen.getByText(profileText)).toBeInTheDocument();
     });
 
-    it('renders visit profile btn if signed in', async () => {
+    it('renders welcome message with email if signed in', async () => {
         // Mock session data
         (useSession as jest.Mock).mockReturnValue({
             data: {
@@ -107,11 +47,73 @@ describe('Home Page', () => {
         // Render the Home component
         render(
             <MantineProvider>
-                <Home />
+                <ProfilePage />
+            </MantineProvider>
+        );
+
+
+        // Assert
+        expect(await screen.getByText("Welcome, test@gmail.com!")).toBeInTheDocument();
+    });
+
+    it('renders sign in button if not signed in', async () => {
+        // Mock session data
+        (useSession as jest.Mock).mockReturnValue({
+            data: null,
+            status: 'unauthenticated',
+        });
+
+        // Render the Home component
+        render(
+            <MantineProvider>
+                <ProfilePage />
             </MantineProvider>
         );
 
         // Assert
-        expect(await screen.getByRole("link", { name: "Visit Profile"})).toBeInTheDocument();
+        expect(await screen.getByRole("button", { name: "Log In" })).toBeInTheDocument();
     });
+
+    it('renders sign out button if signed in', async () => {
+        // Mock session data
+        (useSession as jest.Mock).mockReturnValue({
+            data: {
+                user: {
+                    email: "test@gmail.com"
+                }
+            },
+            status: 'authenticated',
+        });
+
+        // Render the Home component
+        render(
+            <MantineProvider>
+                <ProfilePage />
+            </MantineProvider>
+        );
+
+        // Assert
+        expect(await screen.getByRole("button", { name: "Sign Out" })).toBeInTheDocument();
+    });
+
+    it("renders delete account btn if signed in", async () => {
+        // Mock session data
+        (useSession as jest.Mock).mockReturnValue({
+            data: {
+                user: {
+                    email: "test@gmail.com"
+                }
+            },
+            status: 'authenticated',
+            });
+
+            render (
+                <MantineProvider>
+                    <ProfilePage />
+                </MantineProvider>
+            );
+
+            // Assert
+            expect(await screen.getByText("Delete Account")).toBeInTheDocument();
+        });
 });
