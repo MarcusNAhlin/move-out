@@ -7,7 +7,7 @@ async function deleteAccount(req: NextRequest) {
     const { email, token } = await req.json();
 
     if (!email) {
-        return NextResponse.json({ message: "Can't find email!", error: true, status: 401, ok: false }, { status: 401, statusText: "Can't find email"});
+        return NextResponse.json({ message: "Can't find email!", error: true, status: 401, ok: false }, { status: 401, statusText: "Can't find email!"});
     }
 
     if (!token) {
