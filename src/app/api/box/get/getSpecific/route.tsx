@@ -4,25 +4,25 @@ import { PrismaClient } from "@prisma/client";
 async function getLabel(req: NextRequest) {
     const prisma = new PrismaClient();
 
-    const labelId: string | null = req.nextUrl.searchParams.get("labelId") as string;
+    const boxId: string | null = req.nextUrl.searchParams.get("boxId") as string;
 
-    if (!labelId) {
-        return NextResponse.json({ message: "No label provided!", error: true, status: 401, ok: false });
+    if (!boxId) {
+        return NextResponse.json({ message: "No box provided!", error: true, status: 401, ok: false });
     }
 
     try {
-        const label = await prisma.label.findUnique({
+        const box = await prisma.box.findUnique({
             where: {
-                id: labelId,
+                id: boxId,
             }
         });
 
-        return NextResponse.json({ message: "Found label!", error: false, status: 200, ok: true, label: label });
+        return NextResponse.json({ message: "Found box!", error: false, status: 200, ok: true, box: box });
     } catch (e) {
-        return NextResponse.json({ message: "Error finding label!", error: true, status: 401, ok: false });
+        return NextResponse.json({ message: "Error finding box!", error: true, status: 401, ok: false });
     }
 
-    return NextResponse.json({ message: "Error finding label!", error: true, status: 401, ok: false });
+    return NextResponse.json({ message: "Error finding box!", error: true, status: 401, ok: false });
 }
 
 export { getLabel as GET };

@@ -3,13 +3,13 @@
 import { Box, Image, Text, Title } from '@mantine/core';
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react';
-import { Label as LabelInterface } from "@/lib/types";
+import { Box as BoxInterface } from "@/lib/types";
 import Label from "@/components/Label";
 import BackBtn from '@/components/BackBtn';
 
-export default function LabelPage() {
+export default function BoxPage() {
     const router = useParams();
-    const [label, setLabel] = useState<LabelInterface>();
+    const [box, setBox] = useState<BoxInterface>();
     const [message, setMessage] = useState("");
 
 
@@ -17,29 +17,29 @@ export default function LabelPage() {
 
 
     useEffect(() => {
-        async function getLabel() {
+        async function getBox() {
             try {
-                const response = await fetch(`/api/box/get/getSpecific?labelId=${id}`, {
+                const response = await fetch(`/api/box/get/getSpecific?boxId=${id}`, {
                     method: "GET",
                 });
 
                 const data = await response.json();
 
-                setLabel(data.label);
+                setBox(data.box);
             } catch (e: any) {
                 console.error(e);
                 setMessage(e);
             }
         }
 
-        getLabel();
+        getBox();
     }, [id]);
 
-    let labelText;
+    let boxText;
 
     // Split box content into array split by rows
-    if (label?.text) {
-        labelText = label?.text.split("\n")
+    if (box?.text) {
+        boxText = box?.text.split("\n")
     }
 
 
@@ -51,24 +51,24 @@ export default function LabelPage() {
         }
 
         {
-            label && <Label label={label} printBtn />
+            box && <Label label={box} printBtn />
         }
         <Box mt={"lg"}>
             <Title order={4}>Box Content</Title>
 
             {
-                labelText && labelText.map((text, index) => {
+                boxText && boxText.map((text, index) => {
                     return <Text key={index}>{text}</Text>
                 })
             }
         </Box>
         {
-            label?.imageName && <Image src={`/images/user-images/${label?.userId}/${label?.id}/${label?.imageName}`} maw={"90vw"} w={"600px"} mt={"lg"} alt="Box content image" />
+            box?.imageName && <Image src={`/images/user-images/${box?.userId}/${box?.id}/${box?.imageName}`} maw={"90vw"} w={"600px"} mt={"lg"} alt="Box content image" />
         }
         {
-            label?.soundName && <>
+            box?.soundName && <>
             <audio controls>
-                <source src={`/sounds/user-sounds/${label?.userId}/${label?.id}/${label.soundName}.webm`} type="audio/webm" />
+                <source src={`/sounds/user-sounds/${box?.userId}/${box?.id}/${box.soundName}.webm`} type="audio/webm" />
                 Your browser does not support the audio element.
             </audio>
             </>

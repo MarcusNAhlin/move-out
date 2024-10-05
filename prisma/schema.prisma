@@ -23,7 +23,7 @@ model User {
   role                Role      @default(USER)
   token               VerificationToken?
   deleteToken         DeleteToken?
-  labels              Label[]
+  labels              Box[]
 }
 
 enum Role {
@@ -51,7 +51,7 @@ model DeleteToken {
     user      User      @relation(fields: [userId], references: [id])
 }
 
-model Label {
+model Box {
   id            String       @id @default(uuid())
   userId        Int
   title         String

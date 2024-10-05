@@ -2,7 +2,7 @@ import prisma from '../../client';
 
 type LabelType = "NORMAL" | "FRAGILE" | "HAZARDOUS";
 
-interface LabelInterface {
+interface BoxInterface {
     userId: number;
     title: string;
     type: LabelType;
@@ -13,10 +13,10 @@ interface LabelInterface {
     updatedAt?: Date;
 }
 
-export async function addBox(label: LabelInterface) {
+export async function addBox(box: BoxInterface) {
     try {
-        return await prisma.label.create({
-            data: label
+        return await prisma.box.create({
+            data: box
         });
     } catch (e: any) {
         console.log(e);

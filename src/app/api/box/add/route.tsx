@@ -15,16 +15,16 @@ async function addLabel(req: NextRequest) {
     const prisma = new PrismaClient();
 
     const formData = await req.formData();
-    const labelTitle = formData.get("labelTitle") as string;
+    const boxTitle = formData.get("boxTitle") as string;
     const labelDesign = formData.get("labelDesign") as string;
-    const labelTextContent = formData.get("labelTextContent") as string;
+    const boxTextContent = formData.get("boxTextContent") as string;
     const email = formData.get("email") as string;
-    const image: File | null = formData.get("labelImage") as File;
-    const labelSound: File | null = formData.get("labelSound") as File;
+    const image: File | null = formData.get("boxImage") as File;
+    const boxSound: File | null = formData.get("boxSound") as File;
 
 
-    if (labelSound) {
-        if (labelSound.size > 10000000 || labelSound.type !== "audio/webm") {
+    if (boxSound) {
+        if (boxSound.size > 10000000 || boxSound.type !== "audio/webm") {
             return NextResponse.json({ message: "Sound too big!", error: true, status: 401, ok: false }, { status: 401, statusText: "Sound too big!" });
         }
     }
@@ -35,8 +35,8 @@ async function addLabel(req: NextRequest) {
         }
     }
 
-    if (!labelTitle) {
-        return NextResponse.json({ message: "No label title provided!", error: true, status: 401, ok: false }, { status: 401, statusText: "No label title provided!" });
+    if (!boxTitle) {
+        return NextResponse.json({ message: "No box title provided!", error: true, status: 401, ok: false }, { status: 401, statusText: "No box title provided!" });
     }
 
     if (!labelDesign) {
@@ -71,16 +71,16 @@ async function addLabel(req: NextRequest) {
 
     try {
         // TODO: Fix type!
-        const label: any = {
+        const box: any = {
             userId: userId,
-            title: labelTitle,
+            title: boxTitle,
             type: labelDesign as LabelType,
-            text: labelTextContent || "",
+            text: boxTextContent || "",
             imageName: image?.name || "",
-            soundName: labelSound ? "sound" : "",
+            soundName: boxSound ? "sound" : "",
         }
 
-        const newLabel = await addBoxToDB(label)
+        const newLabel = await addBoxToDB(box)
 
         let imagePath: string | null = null;
 
@@ -103,11 +103,11 @@ async function addLabel(req: NextRequest) {
             }
         }
 
-        if (labelSound) {
+        if (boxSound) {
             const soundPath = path.join(process.cwd(), "public", "sounds", "user-sounds", `${userId}`, `${newLabel.id}`, `sound.webm`);
             try {
                 // Convert sound to buffer
-                const bytes = await labelSound.arrayBuffer();
+                const bytes = await boxSound.arrayBuffer();
                 const buffer = Buffer.from(bytes);
 
                 // Create directory if it doesn't exist
@@ -121,12 +121,12 @@ async function addLabel(req: NextRequest) {
             }
         }
 
-        return NextResponse.json({ message: "Label created!", error: false, status: 200, ok: true }, { status: 200, statusText: "Label created!" });
+        return NextResponse.json({ message: "Box created!", error: false, status: 200, ok: true }, { status: 200, statusText: "Box created!" });
     } catch (e) {
-        return NextResponse.json({ message: "Error creating label!", error: true, status: 401, ok: false }, { status: 401, statusText: "Error creating label!" });
+        return NextResponse.json({ message: "Error creating box!", error: true, status: 401, ok: false }, { status: 401, statusText: "Error creating box!" });
     }
 
-    return NextResponse.json({ message: "Error creating label!", error: true, status: 401, ok: false }, { status: 401, statusText: "Error creating label!" });
+    return NextResponse.json({ message: "Error creating box!", error: true, status: 401, ok: false }, { status: 401, statusText: "Error creating box!" });
 }
 
 export { addLabel as POST };

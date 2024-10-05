@@ -15,14 +15,14 @@ jest.mock('next/server', () => ({
     },
 }));
 
-describe('Label add API', () => {
+describe('Box add API', () => {
     beforeEach(() => {
         jest.clearAllMocks();
     });
 
     it('returns an error if email is missing', async () => {
         const formData = new FormData();
-        formData.append("labelTitle", "test");
+        formData.append("boxTitle", "test");
         formData.append("labelDesign", "NORMAL");
 
         const req = {
@@ -41,7 +41,7 @@ describe('Label add API', () => {
         }, { status: 401, statusText: "No email provided!" });
     });
 
-    it('returns an error if labelTitle is missing', async () => {
+    it('returns an error if boxTitle is missing', async () => {
         const formData = new FormData();
         formData.append("email", "test@gmail.com");
         formData.append("labelDesign", "NORMAL");
@@ -55,17 +55,17 @@ describe('Label add API', () => {
         const response = await POST(req);
 
         expect(NextResponse.json).toHaveBeenCalledWith({
-            message: "No label title provided!",
+            message: "No box title provided!",
             error: true,
             status: 401,
             ok: false,
-        }, { status: 401, statusText: "No label title provided!" });
+        }, { status: 401, statusText: "No box title provided!" });
     });
 
     it('returns an error if labelDesign is missing', async () => {
         const formData = new FormData();
         formData.append("email", "test@gmail.com");
-        formData.append("labelTitle", "test");
+        formData.append("boxTitle", "test");
 
         const req = {
             formData: jest.fn().mockResolvedValue(formData),
@@ -87,7 +87,7 @@ describe('Label add API', () => {
         const req = {
             json: jest.fn().mockResolvedValue({
                 email: "test@gmail.com",
-                labelTitle: "test",
+                boxTitle: "test",
                 labelDesign: "NORMAL"
             }),
         } as unknown as NextRequest;
@@ -107,7 +107,7 @@ describe('Label add API', () => {
             updatedAt: updatedAt
         };
 
-        prismaMock.label.create.mockResolvedValue(label);
+        prismaMock.box.create.mockResolvedValue(label);
 
         await expect(addBox(label)).resolves.toEqual({
             id: "291b8587-314c-4ab7-ac17-76fb9048c328",
@@ -125,13 +125,13 @@ describe('Label add API', () => {
     it.skip('returns an error if image is too big', async () => {
         const formData = new FormData();
         formData.append("email", "test@gmail.com");
-        formData.append("labelTitle", "test");
+        formData.append("boxTitle", "test");
         formData.append("labelDesign", "NORMAL");
 
         // Create blob with size 10.1 MB (too big)
         const blob = new Blob([new Uint8Array(10100000)], { type: 'image/jpeg' });
         const file = new File([blob], "TestImage.jpg", { type: 'image/jpeg' });
-        formData.append("labelImage", file);
+        formData.append("boxImage", file);
 
         const req = {
             formData: jest.fn().mockResolvedValue(formData),
@@ -152,13 +152,13 @@ describe('Label add API', () => {
     it.skip('returns an error if sound is too big', async () => {
         const formData = new FormData();
         formData.append("email", "test@gmail.com");
-        formData.append("labelTitle", "test");
+        formData.append("boxTitle", "test");
         formData.append("labelDesign", "NORMAL");
 
         // Create blob with size 10.1 MB (too big)
         const blob = new Blob([new Uint8Array(10100000)], { type: 'audio/webm' });
         const file = new File([blob], "sound.webm", { type: 'audio/webm' });
-        formData.append("labelSound", file);
+        formData.append("boxSound", file);
 
         const req = {
             formData: jest.fn().mockResolvedValue(formData),

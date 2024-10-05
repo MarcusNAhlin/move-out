@@ -23,12 +23,12 @@ export default function LabelAddPage() {
 
     const form = useForm({
         mode: 'uncontrolled',
-        initialValues: { labelTitle: '', labelDesign: '', labelTextContent: '', labelImage: null },
+        initialValues: { boxTitle: '', labelDesign: '', boxTextContent: '', boxImage: null },
 
         validate: {
-            labelTitle: (value: string) => (value.length < 0 ? 'Title too short' :
+            boxTitle: (value: string) => (value.length < 0 ? 'Title too short' :
                                 value.length > 50 ? 'Title too long' : null),
-            labelImage: (value: any) => (value && value.size > 10000000 ? 'Image too big, max 10 MB' : null),
+            boxImage: (value: any) => (value && value.size > 10000000 ? 'Image too big, max 10 MB' : null),
         },
     });
 
@@ -43,16 +43,16 @@ export default function LabelAddPage() {
 
         const formData = new FormData();
         formData.append('email', session.user.email);
-        formData.append('labelTitle', values.labelTitle);
+        formData.append('boxTitle', values.boxTitle);
         formData.append('labelDesign', values.labelDesign);
-        formData.append('labelTextContent', values.labelTextContent);
+        formData.append('boxTextContent', values.boxTextContent);
 
-        if (values.labelImage) {
-            formData.append('labelImage', values.labelImage);
+        if (values.boxImage) {
+            formData.append('boxImage', values.boxImage);
         }
 
         if (blob) {
-            formData.append('labelSound', blob);
+            formData.append('boxSound', blob);
         }
 
         try {
@@ -143,11 +143,11 @@ export default function LabelAddPage() {
                     <TextInput
                         mb={"sm"}
                         label="Box Title"
-                        id="labelTitle"
+                        id="boxTitle"
                         placeholder="Enter a box title"
                         required
-                        key={form.key('labelTitle')}
-                        {...form.getInputProps('labelTitle')}
+                        key={form.key('boxTitle')}
+                        {...form.getInputProps('boxTitle')}
                         />
                     <Select
                         mb={"sm"}
@@ -164,16 +164,16 @@ export default function LabelAddPage() {
                         placeholder={`Item 1\nItem 2\nItem 3\nItem 4\n...`}
                         minRows={5}
                         autosize
-                        key={form.key('labelTextContent')}
-                        {...form.getInputProps('labelTextContent')}
+                        key={form.key('boxTextContent')}
+                        {...form.getInputProps('boxTextContent')}
                     />
                     <FileInput
                         mb={"sm"}
                         size="md"
                         label="Image"
                         placeholder="Click to add image"
-                        key={form.key('labelImage')}
-                        {...form.getInputProps('labelImage')}
+                        key={form.key('boxImage')}
+                        {...form.getInputProps('boxImage')}
                     />
                     <Flex direction="column" >
                         <label htmlFor="audio-recording">Audio Note</label>

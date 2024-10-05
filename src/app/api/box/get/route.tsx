@@ -32,7 +32,7 @@ async function getLabels(req: NextRequest) {
     }
 
     try {
-        const labels = await prisma.label.findMany({
+        const labels = await prisma.box.findMany({
             where: {
                 userId: userId,
             }

@@ -20,7 +20,7 @@ export interface User {
     updatedAt: Date;
     role: Role;
     token?: VerificationToken | undefined;
-    labels: Label[];
+    labels: Box[];
 }
 
 export interface VerificationToken {
@@ -33,7 +33,7 @@ export interface VerificationToken {
     user: User;
 }
 
-export interface Label {
+export interface Box {
     id: string;
     userId: number;
     title: string;

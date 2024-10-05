@@ -55,7 +55,7 @@ async function deleteAccount(req: NextRequest) {
             where: { userId: user.id }
         });
 
-        await prisma.label.deleteMany({
+        await prisma.box.deleteMany({
             where: { userId: user.id }
         });
 
