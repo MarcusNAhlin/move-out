@@ -70,7 +70,7 @@ async function deleteAccount(req: NextRequest) {
     } catch (error) {
         console.log(error);
 
-        return Response.json({ error }, { status: 500, statusText: "Internal server error" });
+        return NextResponse.json({ error }, { status: 500, statusText: "Internal server error" });
     }
 }
 
