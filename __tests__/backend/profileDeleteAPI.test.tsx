@@ -17,28 +17,28 @@ describe('Profile delete API test', () => {
         jest.clearAllMocks();
     });
 
-    // it('returns an error if email is missing', async () => {
-    //     const req = {
-    //         json: jest.fn().mockResolvedValue({
-    //             token: "test"
-    //         }),
-    //     } as unknown as NextRequest;
+    it('returns an error if email is missing', async () => {
+        const req = {
+            json: jest.fn().mockResolvedValue({
+                token: "test"
+            }),
+        } as unknown as NextRequest;
 
-    //     const res = {} as NextResponse;
+        const res = {} as NextResponse;
 
-    //     const response = await DELETE(req);
+        const response = await DELETE(req);
 
-    //     expect(NextResponse.json).toHaveBeenCalledWith({
-    //         message: "Can't find email!",
-    //         error: true,
-    //         status: 401,
-    //         ok: false,
-    //     },
-    //     {
-    //         status: 401,
-    //         statusText: "Can't find email!",
-    //     });
-    // });
+        expect(NextResponse.json).toHaveBeenCalledWith({
+            message: "Can't find email!",
+            error: true,
+            status: 401,
+            ok: false,
+        },
+        {
+            status: 401,
+            statusText: "Can't find email!",
+        });
+    });
 
     it('returns an error if token is missing', async () => {
         const req = {
