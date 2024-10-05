@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { POST } from '../src/app/api/authenticate/route';
-import { PrismaClient } from '@prisma/client';
 
 // Mock NextResponse
 jest.mock('next/server', () => ({
@@ -24,7 +23,7 @@ describe('authenticate function', () => {
 
         const res = {} as NextResponse;
 
-        const response = await POST(req, res);
+        const response = await POST(req);
 
         expect(NextResponse.json).toHaveBeenCalledWith({
             message: "Missing email or password!",
