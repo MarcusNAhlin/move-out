@@ -1,5 +1,4 @@
 import prisma from '../../client';
-import { Box } from '@/lib/types';
 
 type LabelType = "NORMAL" | "FRAGILE" | "HAZARDOUS";
 

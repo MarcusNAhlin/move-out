@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Image, Skeleton, Text, Title } from '@mantine/core';
+import { Box, Image, Text, Title } from '@mantine/core';
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react';
 import { Box as BoxInterface } from "@/lib/types";
@@ -17,7 +17,7 @@ export default function BoxPage() {
 
     const [boxOwner, setBoxOwner] = useState<User | null>(null);
 
-    const { status, data: session } = useSession();
+    const { data: session } = useSession();
 
     const { id } = router;
 
