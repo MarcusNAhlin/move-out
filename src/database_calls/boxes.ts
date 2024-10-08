@@ -83,12 +83,14 @@ export async function editBox(box: {
     }
 
     try {
-        return await prisma.box.update({
+        const res =  await prisma.box.update({
             where: {
                 id: box.id
             },
             data: newBoxData
         });
+
+        return res;
     } catch (e: any) {
         console.log(e);
         throw new Error(e);
