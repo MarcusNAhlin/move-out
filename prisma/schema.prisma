@@ -56,6 +56,8 @@ model Box {
   userId        Int
   title         String
   type          LabelType @default(NORMAL)
+  private       Boolean   @default(false)
+  pin           String?
   text          String?
   imageName     String?
   soundName     String?
