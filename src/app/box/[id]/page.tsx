@@ -1,6 +1,6 @@
 "use client";
 
-import { Alert, Box, Button, Flex, Group, Image, PasswordInput, PinInput, Text, Title } from '@mantine/core';
+import { Alert, Box, Button, Flex, Group, Image, Loader, PasswordInput, PinInput, Text, Title } from '@mantine/core';
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react';
 import { Box as BoxInterface } from "@/lib/types";
@@ -13,6 +13,7 @@ import { useForm } from '@mantine/form';
 
 export default function BoxPage() {
     const router = useParams();
+    const [loading, setLoading] = useState(true);
     const [box, setBox] = useState<BoxInterface>();
     const [message, setMessage] = useState("");
 
@@ -60,7 +61,6 @@ export default function BoxPage() {
                 setPinVerified(true);
                 setMessage("");
             }
-
         } catch (e: any) {
             console.error(e);
             setMessage(e);
@@ -79,9 +79,12 @@ export default function BoxPage() {
                 setBox(data.box);
 
                 getBoxOwner(data.box.id);
+
+                setLoading(false);
             } catch (e: any) {
                 console.error(e);
                 setMessage(e);
+                setLoading(false);
             }
         }
 
@@ -114,38 +117,43 @@ export default function BoxPage() {
         boxText = box?.text.split("\n")
     }
 
-
-    if (box?.private && !pinVerified) {
-        if (session?.user?.email !== boxOwner?.email) {
-            return (
-                <>
-                    <BackBtn text="&larr;" href="/" icon />
-                    <Title order={1}>Private Box</Title>
-                    <form onSubmit={form.onSubmit(handleFormSubmit)}>
-                        <PinInput
-                            length={6}
-                            type="number"
-                            aria-label="Pin code for private box"
-                            mt={"sm"}
-                            key={form.key('pinCode')}
-                            {...form.getInputProps('pinCode')}
-                        />
-                        <Group justify="flex-end" mt="md">
-                            <Button type="submit" loading={sendingPin}>Send</Button>
-                        </Group>
-                    </form>
-                        {
-                            message &&
-                            <Alert variant="light" color="red" maw={"300px"} w={"90%"} m={"sm"}>
-                                {message}
-                            </Alert>
-                        }
-                </>
-            );
-        }
+    if (loading) {
+        return (<>
+            <BackBtn text="&larr;" href="/" icon />
+            <Loader size={"lg"} />
+        </>);
     }
 
-    if (pinVerified || !box?.private || session?.user?.email === boxOwner?.email) {
+
+    if (box?.private && !pinVerified && session?.user?.email !== boxOwner?.email) {
+        return (
+            <>
+                <BackBtn text="&larr;" href="/" icon />
+                <Title order={1}>Private Box</Title>
+                <form onSubmit={form.onSubmit(handleFormSubmit)}>
+                    <PinInput
+                        length={6}
+                        type="number"
+                        aria-label="Pin code for private box"
+                        mt={"sm"}
+                        key={form.key('pinCode')}
+                        {...form.getInputProps('pinCode')}
+                    />
+                    <Group justify="flex-end" mt="md">
+                        <Button type="submit" loading={sendingPin}>Send</Button>
+                    </Group>
+                </form>
+                    {
+                        message &&
+                        <Alert variant="light" color="red" maw={"300px"} w={"90%"} m={"sm"}>
+                            {message}
+                        </Alert>
+                    }
+            </>
+        );
+    }
+
+    if (session?.user?.email === boxOwner?.email || !box?.private || pinVerified) {
         return (
             <>
             <BackBtn text="&larr;" href="/" icon />

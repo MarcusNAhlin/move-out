@@ -5,12 +5,6 @@ import { LabelType } from "@/lib/types";
 import fs from 'fs';
 import path from "path";
 
-export const config = {
-    api: {
-        bodyParser: false,
-    },
-};
-
 async function addLabel(req: NextRequest) {
     const prisma = new PrismaClient();
 

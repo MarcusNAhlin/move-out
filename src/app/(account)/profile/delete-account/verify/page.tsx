@@ -4,9 +4,9 @@ import BackBtn from "@/components/BackBtn";
 import { Alert, Skeleton, Title } from "@mantine/core";
 import { signOut, useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 
-export default function VerifyDeleteAccount() {
+function VerifyDeleteAccountContent() {
     const searchParams = useSearchParams();
     const token = searchParams.get('token');
 
@@ -72,3 +72,10 @@ export default function VerifyDeleteAccount() {
         </>
     )
 }
+    export default function VerifyDeleteAccount() {
+        return (
+            <Suspense fallback={<Skeleton height={50} width={"12rem"} radius={"md"} mt={"sm"} />}>
+                <VerifyDeleteAccountContent />
+            </Suspense>
+        );
+    }
