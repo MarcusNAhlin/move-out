@@ -38,6 +38,8 @@ export interface Box {
     userId: number;
     title: string;
     type: LabelType;
+    private: boolean;
+    pin: string | undefined;
     text?: string | undefined;
     imageName?: string | undefined;
     soundName?: string | undefined;

@@ -6,6 +6,8 @@ interface BoxInterface {
     userId: number;
     title: string;
     type: LabelType;
+    private: boolean;
+    pin?: string;
     text?: string;
     imageName?: string;
     soundName?: string;
@@ -59,25 +61,32 @@ export async function getBoxOwnerEmail(boxId: string) {
  * @returns box
  */
 export async function editBox(box: {
-    title?: string | undefined,
-    type?: LabelType | undefined,
-    text?: string | undefined,
-    imageName?: string | undefined,
-    soundName?: string | undefined,
+    title?: string | null,
+    type?: LabelType | null,
+    private: boolean | null,
+    pin?: string | null,
+    text?: string | null,
+    imageName?: string | null,
+    soundName?: string | null,
     [key: string]: any
 }) {
 
     const newBoxData: {
         title?: string | undefined,
         type?: LabelType | undefined,
+        private: boolean | undefined,
+        pin: string | null,
         text?: string | undefined,
         imageName?: string | undefined,
         soundName?: string | undefined,
         [key: string]: any
-    } = {};
+    } = {
+        private: box.private ?? false,
+        pin: box.pin ?? null,
+    };
 
     for (const key in box) {
-        if (box[key]) {
+        if (box[key] !== undefined && box[key] !== null) {
             newBoxData[key] = box[key];
         }
     }

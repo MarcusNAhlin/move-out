@@ -21,7 +21,10 @@ async function addLabel(req: NextRequest) {
     const email = formData.get("email") as string;
     const image: File | null = formData.get("boxImage") as File;
     const boxSound: File | null = formData.get("boxSound") as File;
+    const boxPrivate: string | boolean = formData.get("boxPrivate") as string;
 
+    let boxPrivateAsBool: boolean = false;
+    let randomPin: string | null = null;
 
     if (boxSound) {
         if (boxSound.size > 10000000 || boxSound.type !== "audio/webm") {
@@ -32,6 +35,15 @@ async function addLabel(req: NextRequest) {
     if (image) {
         if (image.size > 10000000) {
             return NextResponse.json({ message: "Image too big!", error: true, status: 401, ok: false }, { status: 401, statusText: "Image too big!" });
+        }
+    }
+
+    if (boxPrivate) {
+        if (boxPrivate === "true") {
+            boxPrivateAsBool = true;
+            randomPin = Math.floor(100000 + Math.random() * 900000).toString();
+        } else {
+            boxPrivateAsBool = false;
         }
     }
 
@@ -68,16 +80,17 @@ async function addLabel(req: NextRequest) {
         return NextResponse.json({ message: "User not found!", error: true, status: 401, ok: false }, { status: 401, statusText: "User not found!" });
     }
 
-
     try {
         // TODO: Fix type!
         const box: any = {
             userId: userId,
             title: boxTitle,
             type: labelDesign as LabelType,
-            text: boxTextContent || "",
-            imageName: image?.name || "",
-            soundName: boxSound ? "sound" : "",
+            private: boxPrivateAsBool,
+            text: boxTextContent || null,
+            pin: randomPin || null,
+            imageName: image?.name || null,
+            soundName: boxSound ? "sound" : null,
         }
 
         const newLabel = await addBoxToDB(box)

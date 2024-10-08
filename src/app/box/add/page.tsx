@@ -1,7 +1,7 @@
 "use client";
 
 import BackBtn from "@/components/BackBtn";
-import { Alert, Button, FileInput, Flex, Group, Select, TextInput, Textarea, Title } from "@mantine/core";
+import { Alert, Button, FileInput, Flex, Group, Select, TextInput, Textarea, Title, Switch } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -23,7 +23,7 @@ export default function LabelAddPage() {
 
     const form = useForm({
         mode: 'uncontrolled',
-        initialValues: { boxTitle: '', labelDesign: '', boxTextContent: '', boxImage: null },
+        initialValues: { boxTitle: '', labelDesign: '', boxTextContent: '', boxImage: null, labelPrivacy: false },
 
         validate: {
             boxTitle: (value: string) => (value.length < 0 ? 'Title too short' :
@@ -46,6 +46,7 @@ export default function LabelAddPage() {
         formData.append('boxTitle', values.boxTitle);
         formData.append('labelDesign', values.labelDesign);
         formData.append('boxTextContent', values.boxTextContent);
+        formData.append('boxPrivate', values.labelPrivacy);
 
         if (values.boxImage) {
             formData.append('boxImage', values.boxImage);
@@ -180,13 +181,23 @@ export default function LabelAddPage() {
                         <audio controls id="audio-recording">
                             Your browser does not support the audio element.
                         </audio>
-                        <Flex direction={"row"} justify={"center"}>
+                        <Flex direction={"row"} justify={"center"} mb={"sm"}>
                             {
                                 isRecording ? <Button color="red" onClick={handleRecording}>Stop Recording</Button> :
                                 <Button color="blue" onClick={handleRecording}>Record</Button>
                             }
                         </Flex>
                     </Flex>
+                    <label htmlFor="label-privacy">Box Privacy</label>
+                    <Switch
+                        size="xl"
+                        mb={"sm"}
+                        offLabel="Public"
+                        onLabel="Private"
+                        id="label-privacy"
+                        key={form.key('labelPrivacy')}
+                        {...form.getInputProps('labelPrivacy')}
+                    />
                     {
                         message ? <Alert variant="light" color="red">
                             {message}

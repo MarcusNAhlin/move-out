@@ -1,7 +1,7 @@
 "use client";
 
 import BackBtn from "@/components/BackBtn";
-import { Alert, Button, FileInput, Flex, Group, Image, Select, TextInput, Textarea, Title } from "@mantine/core";
+import { Alert, Button, FileInput, Flex, Group, Image, Select, Switch, TextInput, Textarea, Title } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useSession } from "next-auth/react";
 import { useParams, useRouter } from "next/navigation";
@@ -31,7 +31,7 @@ export default function BoxEditPage() {
 
     const form = useForm({
         mode: 'uncontrolled',
-        initialValues: { boxTitle: '', labelDesign: '', boxTextContent: '', boxImage: null },
+        initialValues: { boxTitle: '', labelDesign: '', boxTextContent: '', boxImage: null, labelPrivacy: false },
 
         validate: {
             boxTitle: (value: string) => (value.length < 0 ? 'Title too short' :
@@ -55,6 +55,7 @@ export default function BoxEditPage() {
         formData.append('boxTitle', values.boxTitle);
         formData.append('labelDesign', values.labelDesign);
         formData.append('boxTextContent', values.boxTextContent);
+        formData.append('boxPrivate', values.labelPrivacy);
 
         if (values.boxImage) {
             formData.append('boxImage', values.boxImage);
@@ -143,9 +144,10 @@ export default function BoxEditPage() {
             form.setValues({
                 boxTitle: boxData.title,
                 labelDesign: boxData.type,
-                boxTextContent: boxData.text,
+                boxTextContent: boxData.text
             });
         }
+
     }, [boxData]);
 
 
@@ -238,6 +240,18 @@ export default function BoxEditPage() {
                             }
                         </Flex>
                     </Flex>
+                    <label htmlFor="label-privacy">Box Privacy</label>
+                    <Switch
+                        size="xl"
+                        mb={"sm"}
+                        offLabel="Public"
+                        onLabel="Private"
+                        id="label-privacy"
+                        disabled={!boxData}
+                        defaultChecked={boxData?.private}
+                        key={form.key('labelPrivacy')}
+                        {...form.getInputProps('labelPrivacy')}
+                    />
                     {
                         message ? <Alert variant="light" color="red">
                             {message}
