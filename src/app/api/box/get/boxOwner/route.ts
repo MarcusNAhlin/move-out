@@ -21,7 +21,7 @@ async function getBoxOwner(req: NextRequest) {
         });
 
         if (!boxOwnerId) {
-            return NextResponse.json({ message: "Box not found!", error: true, status: 401, ok: false }, { status: 401, statusText: "Box not found" });
+            return NextResponse.json({ message: "Box owner id not found!", error: true, status: 401, ok: false }, { status: 401, statusText: "Box not found" });
         }
 
         const boxOwner = await prisma.user.findUnique({

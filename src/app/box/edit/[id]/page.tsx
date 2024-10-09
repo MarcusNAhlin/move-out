@@ -1,18 +1,20 @@
 "use client";
 
 import BackBtn from "@/components/BackBtn";
-import { Alert, Button, FileInput, Flex, Group, Image, Select, Switch, TextInput, Textarea, Title } from "@mantine/core";
+import { Alert, Button, FileInput, Flex, Group, Image, Loader, Select, Switch, TextInput, Textarea, Title } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useSession } from "next-auth/react";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Box } from "@/lib/types";
+import { Box, User } from "@/lib/types";
 
 export default function BoxEditPage() {
     const routerParams = useParams();
     const router = useRouter();
 
     const { id } = routerParams;
+
+    const [loading, setLoading] = useState(true);
 
     const [message, setMessage] = useState("");
     const [addingBox, setAddingBox] = useState(false);
@@ -24,6 +26,7 @@ export default function BoxEditPage() {
     const [blob, setBlob] = useState<Blob | null>(null);
 
     const [boxData, setBoxData] = useState<Box | null>(null);
+    const [boxOwner, setBoxOwner] = useState<User | null>(null);
 
 
     // For linter
@@ -119,12 +122,20 @@ export default function BoxEditPage() {
     };
 
     async function getBoxData() {
+        if (boxData) {
+            return;
+        }
+
         try {
             const response = await fetch(`/api/box/get/getSpecific?boxId=${id}`, {
                 method: "GET",
             });
 
             const data = await response.json();
+
+            if (!data.ok) {
+                throw new Error(data.message);
+            }
 
             setBoxData(data.box);
         } catch (e: any) {
@@ -133,11 +144,47 @@ export default function BoxEditPage() {
         }
     }
 
+    async function getBoxOwner(boxId: string) {
+        try {
+            const response = await fetch(`/api/box/get/boxOwner?boxId=${boxId}`, {
+                method: "GET",
+            });
+
+            const data = await response.json();
+
+            if (!data.ok) {
+                throw new Error(data.message);
+            }
+
+            setBoxOwner(data.boxOwner);
+
+            return data;
+        } catch (e: any) {
+            console.error(e);
+            setMessage(e);
+
+            return e;
+        }
+    }
+
     useEffect(() => {
         getBoxData();
 
         startMediaRecorder();
-    }, []);
+    }, [id]);
+
+    useEffect(() => {
+        if (boxData) {
+            getBoxOwner(boxData.id);
+        }
+    }, [boxData]);
+
+    useEffect(() => {
+        if (boxData && boxOwner) {
+            setLoading(false);
+            console.log(session?.user?.email === boxOwner.email);
+        }
+    }, [boxData, boxOwner]);
 
     useEffect(() => {
         if (boxData) {
@@ -168,10 +215,33 @@ export default function BoxEditPage() {
         }
     };
 
-    return ( 
+    if (session?.user?.email !== boxOwner?.email && boxOwner?.email !== undefined && session?.user?.email !== undefined) {
+        return <>
+            {
+                loading && <>
+                    <BackBtn text="&larr;" href={`/box/${id}`} icon />
+                    <Loader size={"lg"} />
+                </>
+            }
+            {
+                !loading && <>
+                <BackBtn text="&larr;" href={`/box/${id}`} icon />
+                <Title>You can't edit this box</Title>
+                </>
+            }
+        </>;
+    }
+
+    return (
         <>
         {
-            status === "authenticated" ?
+            loading && <>
+                <BackBtn text="&larr;" href={`/box/${id}`} icon />
+                <Loader size={"lg"} />
+            </>
+        }
+        {
+            status === "authenticated" && !loading &&
             <>
                 <BackBtn text="&larr;" href={`/box/${boxData?.id}`} icon />
 
@@ -261,10 +331,6 @@ export default function BoxEditPage() {
                         <Button type="submit" loading={addingBox} disabled={!boxData}>Apply Changes</Button>
                     </Group>
                 </form>
-            </> :
-            <>
-                <BackBtn text="&larr;" href={`/box/${boxData?.id}`} icon />
-                <Title order={1}>You need to log in to add boxes</Title>
             </>
         }
         </>
