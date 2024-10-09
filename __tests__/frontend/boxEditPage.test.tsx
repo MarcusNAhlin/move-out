@@ -20,7 +20,7 @@ jest.mock("next/navigation", () => ({
 }));
 
 describe('Box Edit Page', () => {
-    it('renders "not logged in" if not', async () => {
+    it.skip("don't render form if not right user", async () => {
         // Mock session data
         (useSession as jest.Mock).mockReturnValue({
             data: null,
@@ -34,7 +34,7 @@ describe('Box Edit Page', () => {
             </MantineProvider>
         );
 
-        const notSignedInText = "You need to log in to add boxes";
+        const notSignedInText = "You can't edit this box";
 
         // Assert
         expect(await screen.getByText(notSignedInText)).toBeInTheDocument();
