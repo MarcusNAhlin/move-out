@@ -173,7 +173,7 @@ export default function BoxEditPage() {
         {
             status === "authenticated" ?
             <>
-                <BackBtn text="&larr;" href="/" icon />
+                <BackBtn text="&larr;" href={`/box/${boxData?.id}`} icon />
 
                 <Title order={1}>Edit Box</Title>
                 <form onSubmit={form.onSubmit(handleFormSubmit)} style={{
@@ -263,7 +263,7 @@ export default function BoxEditPage() {
                 </form>
             </> :
             <>
-                <BackBtn text="&larr;" href="/" icon />
+                <BackBtn text="&larr;" href={`/box/${boxData?.id}`} icon />
                 <Title order={1}>You need to log in to add boxes</Title>
             </>
         }
