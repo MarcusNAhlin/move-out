@@ -131,11 +131,10 @@ export default function AdminPanel() {
                 <Textarea
                     mt={"sm"}
                     label="Email Content"
-                    placeholder="Email content..."
-                    value="
-                        <h1>This is a template for HTML mail</h1>
-                        <p>Replace this!</p>
-                    "
+                    placeholder={`<h1>This is an example of an email</h1>
+<p>Write it in HTML</p>
+<a href="https://example.com">Links also work</a>
+                    `}
                     autosize
                     minRows={10}
                     key={form.key('mailContent')}
