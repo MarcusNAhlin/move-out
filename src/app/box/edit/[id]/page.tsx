@@ -226,7 +226,7 @@ export default function BoxEditPage() {
             {
                 !loading && <>
                 <BackBtn text="&larr;" href={`/box/${id}`} icon />
-                <Title>You can't edit this box</Title>
+                <Title>You can&apos;t edit this box</Title>
                 </>
             }
         </>;
