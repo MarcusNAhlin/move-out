@@ -191,7 +191,8 @@ export default function BoxEditPage() {
             form.setValues({
                 boxTitle: boxData.title,
                 labelDesign: boxData.type,
-                boxTextContent: boxData.text
+                boxTextContent: boxData.text,
+                labelPrivacy: boxData.private,
             });
         }
 
