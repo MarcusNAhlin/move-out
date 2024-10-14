@@ -17,16 +17,19 @@ async function register(req: NextRequest) {
         return NextResponse.json({ message: "Missing email or password!", error: true, status: 401, ok: false });
     }
 
+    // Match passwords
     if (password !== passwordVerify) {
         return NextResponse.json({ message: "Passwords not matching!", error: true, status: 401, ok: false });
     }
 
-    if (/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(email) === false) {
+    // Verify email format
+    if (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(email) === false) {
         return NextResponse.json({ message: "Invalid email!", error: true, status: 401, ok: false });
     }
 
-    if (password.length < 5 || password.length > 50) {
-        return NextResponse.json({ message: "Password must be between 5 and 50 characters!", error: true, status: 401, ok: false });
+    // Verify password format
+    if (/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$/.test(password) === false) {
+        return NextResponse.json({ message: "Password wrong format!", error: true, status: 401, ok: false });
     }
 
     let existingUser: User | null = null;
