@@ -2,7 +2,7 @@
 
 import BackBtn from "@/components/BackBtn";
 import { Alert, Button, Group, PasswordInput, TextInput } from "@mantine/core";
-import { useForm } from "@mantine/form";
+import { isEmail, matches, matchesField, useForm } from "@mantine/form";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -16,13 +16,15 @@ export default function Register() {
         initialValues: { email: '', password: '', passwordVerify: '' },
 
         validate: {
-            email: (value:string): string | null => (value.length < 5 ? 'Email too short' :
-                                value.length > 50 ? 'Email too long' : /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(value) ? null : "Invalid email"),
-            password: (value:string): string | null => (value.length < 6 ? 'Password too short' :
-                                    value.length > 50 ? 'Password too long' : null),
-            passwordVerify: (value: string, values: any):string | null => (value !== values.password ? 'Passwords do not match' : null)
-        },
-        });
+            email: isEmail("Invalid email"),
+            password:
+                matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$/, "Password wrong format. Must contain at least 6 characters, one letter and one number"),
+            passwordVerify: matchesField(
+                "password",
+                "Passwords do not match"
+            )
+        }
+    });
 
     async function handleFormSubmit() {
         setIsRegistering(true);
