@@ -11,6 +11,7 @@
     "test:watch": "jest --watchAll"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.670.0",
     "@mantine/core": "^7.12.2",
     "@mantine/form": "^7.12.2",
     "@mantine/hooks": "^7.12.2",
