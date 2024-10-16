@@ -2,8 +2,22 @@ import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import { addBox as addBoxToDB } from "@/database_calls/boxes";
 import { LabelType } from "@/lib/types";
-import fs from 'fs';
-import path from "path";
+// import fs from 'fs';
+// import path from "path";
+
+import {
+    S3Client,
+    PutObjectCommand,
+} from "@aws-sdk/client-s3";
+
+const Bucket = process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME;
+const s3 = new S3Client({
+    region: process.env.NEXT_PUBLIC_AWS_REGION,
+    credentials: {
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID as string,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY as string,
+    },
+});
 
 async function addLabel(req: NextRequest) {
     const prisma = new PrismaClient();
@@ -74,6 +88,7 @@ async function addLabel(req: NextRequest) {
         return NextResponse.json({ message: "User not found!", error: true, status: 401, ok: false }, { status: 401, statusText: "User not found!" });
     }
 
+
     try {
         // TODO: Fix type!
         const box: any = {
@@ -83,49 +98,71 @@ async function addLabel(req: NextRequest) {
             private: boxPrivateAsBool,
             text: boxTextContent || null,
             pin: randomPin || null,
-            imageName: image?.name || null,
-            soundName: boxSound ? "sound" : null,
+            imageName: null,
+            soundName: null,
         }
 
         const newLabel = await addBoxToDB(box)
 
-        let imagePath: string | null = null;
+        let imageFilePath: string | null = null;
+        let imageURL: string | null = null;
 
         if (image) {
-            imagePath = path.join(process.cwd(), "public", "images", "user-images", `${userId}`, `${newLabel.id}`, `${image.name}`);
-
             try {
-                // Convert image to buffer
                 const bytes = await image.arrayBuffer();
                 const buffer = Buffer.from(bytes);
 
-                // Create directory if it doesn't exist
-                await fs.mkdirSync(path.join(process.cwd(), "public", "images", "user-images", `${userId}`, `${newLabel.id}`), { recursive: true });
+                imageFilePath = `images/${userId}/${newLabel.id}/image.jpg`;
 
-                // Save image
-                await fs.writeFileSync(imagePath, buffer);
+                await s3.send(new PutObjectCommand({ Bucket, Key: imageFilePath, Body: buffer }));
+
+                imageURL = `https://${process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/${imageFilePath}`;
+
             } catch (e) {
                 console.log(e);
                 return NextResponse.json({ message: "Error saving image!", error: true, status: 401, ok: false }, { status: 401, statusText: "Error saving image!" });
             }
         }
 
+        let soundFilePath: string | null = null;
+        let soundURL: string | null = null;
+
         if (boxSound) {
-            const soundPath = path.join(process.cwd(), "public", "sounds", "user-sounds", `${userId}`, `${newLabel.id}`, `sound.webm`);
             try {
-                // Convert sound to buffer
                 const bytes = await boxSound.arrayBuffer();
                 const buffer = Buffer.from(bytes);
 
-                // Create directory if it doesn't exist
-                await fs.mkdirSync(path.join(process.cwd(), "public", "sounds", "user-sounds", `${userId}`, `${newLabel.id}`), { recursive: true });
+                soundFilePath = `sounds/${userId}/${newLabel.id}/sound.webm`;
 
-                // Save sound
-                await fs.writeFileSync(soundPath, buffer);
+                await s3.send(new PutObjectCommand({ Bucket, Key: soundFilePath, Body: buffer }));
+
+                soundURL = `https://${process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/${soundFilePath}`;
             } catch (e) {
                 console.log(e);
-                return NextResponse.json({ message: "Error saving sound!", error: true, status: 401, ok: false }, { status: 401, statusText: "Error saving sound!" });
+                return NextResponse.json({ message: "Error saving sound note!", error: true, status: 401, ok: false }, { status: 401, statusText: "Error saving sound note!" });
             }
+        }
+
+        if (imageURL) {
+            await prisma.box.update({
+                where: {
+                    id: newLabel.id
+                },
+                data: {
+                    imageName: imageURL
+                }
+            });
+        }
+
+        if (soundURL) {
+            await prisma.box.update({
+                where: {
+                    id: newLabel.id
+                },
+                data: {
+                    soundName: soundURL
+                }
+            });
         }
 
         return NextResponse.json({ message: "Box created!", error: false, status: 200, ok: true }, { status: 200, statusText: "Box created!" });

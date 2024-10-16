@@ -10,12 +10,16 @@ import { useSession } from 'next-auth/react';
 import { User } from '@/lib/types';
 import EditBoxBtn from '@/components/EditBoxBtn';
 import { useForm } from '@mantine/form';
+// import getS3Link from '@/lib/getS3Link';
 
 export default function BoxPage() {
     const router = useParams();
     const [loading, setLoading] = useState(true);
     const [box, setBox] = useState<BoxInterface>();
     const [message, setMessage] = useState("");
+
+    const [image, setImage] = useState<string | undefined>(undefined);
+    const [sound, setSound] = useState<string | undefined>(undefined);
 
     const [boxOwner, setBoxOwner] = useState<User | null>(null);
 
@@ -110,6 +114,54 @@ export default function BoxPage() {
         getBox();
     }, [id]);
 
+    useEffect(() => {
+        async function getBoxImage() {
+            if (image) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/box/get/getFile?boxId=${id}&fileType=image`, {
+                    method: "GET",
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch image');
+                }
+                const data = await response.text()
+                setImage(data);
+            } catch (e: any) {
+                console.error(e);
+                setMessage(e);
+            }
+        }
+
+        async function getBoxSound() {
+            if (image) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/box/get/getFile?boxId=${id}&fileType=sound`, {
+                    method: "GET",
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch sound');
+                }
+                const data = await response.text()
+                setSound(data);
+            } catch (e: any) {
+                console.error(e);
+                setMessage(e);
+            }
+        }
+
+
+        getBoxImage();
+        getBoxSound();
+    }, [box]);
+
     let boxText;
 
     // Split box content into array split by rows
@@ -203,12 +255,12 @@ export default function BoxPage() {
                 }
             </Box>
             {
-                box?.imageName && <Image src={`/images/user-images/${box?.userId}/${box?.id}/${box?.imageName}`} maw={"90vw"} w={"600px"} mt={"lg"} alt="Box content image" />
+                (image && box?.imageName) && <Image src={image} maw={"90vw"} w={"600px"} mt={"lg"} alt="Box content image" />
             }
             {
-                box?.soundName && <>
+                (sound && box?.soundName) && <>
                 <audio controls>
-                    <source src={`/sounds/user-sounds/${box?.userId}/${box?.id}/${box.soundName}.webm`} type="audio/webm" />
+                    <source src={sound} type="audio/webm" />
                     Your browser does not support the audio element.
                 </audio>
                 </>

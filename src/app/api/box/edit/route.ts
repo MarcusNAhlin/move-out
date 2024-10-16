@@ -2,8 +2,22 @@ import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import { editBox as editBoxToDB } from "@/database_calls/boxes";
 import { LabelType } from "@/lib/types";
-import fs from 'fs';
-import path from "path";
+// import fs from 'fs';
+// import path from "path";
+
+import {
+    S3Client,
+    PutObjectCommand,
+} from "@aws-sdk/client-s3";
+
+const Bucket = process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME;
+const s3 = new S3Client({
+    region: process.env.NEXT_PUBLIC_AWS_REGION,
+    credentials: {
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID as string,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY as string,
+    },
+});
 
 // export const config = {
 //     api: {
@@ -77,6 +91,44 @@ async function editBox(req: NextRequest) {
         return NextResponse.json({ message: "User not found!", error: true, status: 401, ok: false }, { status: 401, statusText: "User not found!" });
     }
 
+    let imageFilePath: string | null = null;
+    let imageURL: string | null = null;
+
+    if (image) {
+        try {
+            const bytes = await image.arrayBuffer();
+            const buffer = Buffer.from(bytes);
+
+            imageFilePath = `images/${userId}/${id}/image.jpg`;
+
+            await s3.send(new PutObjectCommand({ Bucket, Key: imageFilePath, Body: buffer }));
+
+            imageURL = `https://${process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/${imageFilePath}`;
+
+        } catch (e) {
+            console.log(e);
+            return NextResponse.json({ message: "Error saving image!", error: true, status: 401, ok: false }, { status: 401, statusText: "Error saving image!" });
+        }
+    }
+
+    let soundFilePath: string | null = null;
+    let soundURL: string | null = null;
+
+    if (boxSound) {
+        try {
+            const bytes = await boxSound.arrayBuffer();
+            const buffer = Buffer.from(bytes);
+
+            soundFilePath = `sounds/${userId}/${id}/sound.webm`;
+
+            await s3.send(new PutObjectCommand({ Bucket, Key: soundFilePath, Body: buffer }));
+
+            soundURL = `https://${process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/${soundFilePath}`;
+        } catch (e) {
+            console.log(e);
+            return NextResponse.json({ message: "Error saving sound note!", error: true, status: 401, ok: false }, { status: 401, statusText: "Error saving sound note!" });
+        }
+    }
 
     try {
         // TODO: Fix type!
@@ -88,53 +140,11 @@ async function editBox(req: NextRequest) {
             private: boxPrivateAsBool,
             pin: randomPin || null,
             text: boxTextContent || null,
-            imageName: image?.name || null,
-            soundName: boxSound ? "sound" : null,
+            imageName: imageURL || null,
+            soundName: soundURL || null,
         }
 
-        const editedBox = await editBoxToDB(box)
-
-        let imagePath: string | null = null;
-
-        if (image) {
-            imagePath = path.join(process.cwd(), "public", "images", "user-images", `${userId}`, `${editedBox.id}`, `${image.name}`);
-
-            try {
-                fs.rmSync(`public/images/user-images/${userId}`, { recursive: true, force: true });
-
-                // Convert image to buffer
-                const bytes = await image.arrayBuffer();
-                const buffer = Buffer.from(bytes);
-
-                // Create directory if it doesn't exist
-                await fs.mkdirSync(path.join(process.cwd(), "public", "images", "user-images", `${userId}`, `${editedBox.id}`), { recursive: true });
-
-                // Save image
-                await fs.writeFileSync(imagePath, buffer);
-            } catch (e) {
-                console.log(e);
-                return NextResponse.json({ message: "Error saving image!", error: true, status: 401, ok: false }, { status: 401, statusText: "Error saving image!" });
-            }
-        }
-
-        if (boxSound) {
-            const soundPath = path.join(process.cwd(), "public", "sounds", "user-sounds", `${userId}`, `${editedBox.id}`, `sound.webm`);
-            try {
-                fs.rmSync(`public/sounds/user-sounds/${userId}`, { recursive: true, force: true });
-                // Convert sound to buffer
-                const bytes = await boxSound.arrayBuffer();
-                const buffer = Buffer.from(bytes);
-
-                // Create directory if it doesn't exist
-                await fs.mkdirSync(path.join(process.cwd(), "public", "sounds", "user-sounds", `${userId}`, `${editedBox.id}`), { recursive: true });
-
-                // Save sound
-                await fs.writeFileSync(soundPath, buffer);
-            } catch (e) {
-                console.log(e);
-                return NextResponse.json({ message: "Error saving sound!", error: true, status: 401, ok: false }, { status: 401, statusText: "Error saving sound!" });
-            }
-        }
+        await editBoxToDB(box)
 
         return NextResponse.json({ message: "Box edited!", error: false, status: 200, ok: true }, { status: 200, statusText: "Box edited!" });
     } catch (e) {

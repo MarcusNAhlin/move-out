@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from 'next/server';
-import fs from "fs";
+// import fs from "fs";
 
 async function deleteAccount(req: NextRequest) {
     const prisma = new PrismaClient();
@@ -58,9 +58,6 @@ async function deleteAccount(req: NextRequest) {
         await prisma.box.deleteMany({
             where: { userId: user.id }
         });
-
-        fs.rmSync(`public/images/user-images/${user.id}`, { recursive: true, force: true });
-        fs.rmSync(`public/sounds/user-sounds/${user.id}`, { recursive: true, force: true });
 
         await prisma.user.delete({
             where: { id: user.id }
