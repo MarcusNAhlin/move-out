@@ -15,3 +15,29 @@ export async function getUserByEmail(email: string) {
         throw new Error(e);
     }
 }
+
+export async function getUserById(id: number) {
+    try {
+        const user = await prisma.user.findUnique({
+            where: {
+                id: id
+            }
+        });
+
+        return user;
+    } catch (e: any) {
+        console.log(e);
+        throw new Error(e);
+    }
+}
+
+export async function getUsers() {
+    try {
+        const users = await prisma.user.findMany();
+
+        return users;
+    } catch (e: any) {
+        console.log(e);
+        throw new Error(e);
+    }
+}

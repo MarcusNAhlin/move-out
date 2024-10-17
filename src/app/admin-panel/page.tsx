@@ -2,10 +2,11 @@
 
 import BackBtn from "@/components/BackBtn";
 import { User } from "@/lib/types";
-import { Button, Loader, Title } from "@mantine/core";
+import { Button, Flex, Loader, Title } from "@mantine/core";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import AdminUserHandling from "@/components/AdminUserHandling";
 
 export default function AdminPanel() {
     const { data: session } = useSession();
@@ -69,6 +70,9 @@ export default function AdminPanel() {
                     w={"12rem"}
                 >Promotion Email
             </Button>
+            <Flex w={"90vw"} maw={"1500px"}>
+                <AdminUserHandling admin={user}/>
+            </Flex>
         </>)
     }
 }

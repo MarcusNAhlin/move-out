@@ -105,3 +105,18 @@ export async function editBox(box: {
         throw new Error(e);
     }
 }
+
+export async function getBoxesFromUserId(userId: number) {
+    try {
+        const boxes = await prisma.box.findMany({
+            where: {
+                userId: userId
+            }
+        });
+
+        return boxes;
+    } catch (e: any) {
+        console.log(e);
+        throw new Error(e);
+    }
+}
