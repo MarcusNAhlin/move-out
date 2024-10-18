@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "User" ADD COLUMN     "deactivated" TIMESTAMP(3),
+ADD COLUMN     "lastAction" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;

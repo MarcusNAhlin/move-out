@@ -18,6 +18,8 @@ model User {
   email               String    @unique
   hash_pass           String
   verified            Boolean   @default(false)
+  deactivated         DateTime?
+  lastAction          DateTime  @default(now())
   createdAt           DateTime  @default(now())
   updatedAt           DateTime  @updatedAt
   role                Role      @default(USER)

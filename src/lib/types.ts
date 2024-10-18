@@ -16,6 +16,8 @@ export interface User {
     email: string;
     hash_pass: string;
     verified: boolean;
+    deactivated: Date;
+    lastAction: Date;
     createdAt: Date;
     updatedAt: Date;
     role: Role;
