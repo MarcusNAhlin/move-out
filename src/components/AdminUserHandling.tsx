@@ -14,36 +14,39 @@ export default function AdminUserHandling({ admin }: { admin: User }) {
     const [users, setUsers] = useState<UserWithStorage[] | null>(null);
     const [deletingUser, setDeletingUser] = useState<boolean>(false);
 
-    async function deleteUser(email: string) {
+    async function deactivateUser(email: string) {
         if (email === admin.email) {
-            setMessage("You cannot delete yourself");
+            setMessage("You cannot deactivate your own account");
+
             return;
         }
 
         try {
             setDeletingUser(true);
-            const response = await fetch(`/api/account/delete/deleteAsAdmin`, {
-                method: "DELETE",
+            const response = await fetch(`/api/account/deactivate`, {
+                method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ email, adminEmail: admin.email })
+                body: JSON.stringify({ email })
             });
 
             const data = await response.json();
 
+            console.log(data);
+
             if (data.ok) {
-                setMessage("User deleted successfully");
-                await getUsers();
+                setMessage("User deactivate successfully");
                 setDeletingUser(false);
+                await getUsers();
             }
 
             if (!data.ok) {
-                setDeletingUser(false);
                 throw new Error(data.message);
             }
         } catch(e) {
-            setMessage("Could not delete user");
+            setDeletingUser(false);
+            setMessage("Could not deactivate user");
             console.error(e);
         }
     }
@@ -118,7 +121,7 @@ export default function AdminUserHandling({ admin }: { admin: User }) {
         <Flex direction={"column"} align={"center"} m={"auto"}>
             {
                 message &&
-                <Alert variant="light" color="red" maw={"300px"} w={"90%"} m={"sm"}>
+                <Alert variant="light" color="orange" maw={"300px"} w={"90%"} m={"sm"}>
                     {message}
                 </Alert>
             }
@@ -129,7 +132,8 @@ export default function AdminUserHandling({ admin }: { admin: User }) {
                     <Table.Th>Email</Table.Th>
                     <Table.Th>Storage Usage</Table.Th>
                     <Table.Th>Verified</Table.Th>
-                    <Table.Th>Delete User</Table.Th>
+                    <Table.Th>Deactivated</Table.Th>
+                    <Table.Th>Deactivate User</Table.Th>
                     </Table.Tr>
                 </Table.Thead>
                 <Table.Tbody>
@@ -140,7 +144,8 @@ export default function AdminUserHandling({ admin }: { admin: User }) {
                             <Table.Td>{user.email}</Table.Td>
                             <Table.Td>{user.storageUsage !== undefined ? `${user.storageUsage} MB` : <Loader h={"1rem"} size={"sm"} />}</Table.Td>
                             <Table.Td>{user.verified.toString()}</Table.Td>
-                            <Table.Td><Button onClick={() => deleteUser(user.email)} disabled={deletingUser}>Delete</Button></Table.Td>
+                            <Table.Td>{user.deactivated ? "true" : "false"}</Table.Td>
+                            <Table.Td><Button onClick={() => deactivateUser(user.email)} disabled={deletingUser}>Deactivate</Button></Table.Td>
                         </Table.Tr>
                     ))
                 }
