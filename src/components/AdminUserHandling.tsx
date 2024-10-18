@@ -12,7 +12,7 @@ interface UserWithStorage extends User {
 export default function AdminUserHandling({ admin }: { admin: User }) {
     const [message, setMessage] = useState<string>('');
     const [users, setUsers] = useState<UserWithStorage[] | null>(null);
-    const [deletingUser, setDeletingUser] = useState<boolean>(false);
+    const [deactivatingUser, setDeactivatingUser] = useState<boolean>(false);
 
     async function deactivateUser(email: string) {
         if (email === admin.email) {
@@ -22,7 +22,7 @@ export default function AdminUserHandling({ admin }: { admin: User }) {
         }
 
         try {
-            setDeletingUser(true);
+            setDeactivatingUser(true);
             const response = await fetch(`/api/account/deactivate`, {
                 method: "POST",
                 headers: {
@@ -37,7 +37,7 @@ export default function AdminUserHandling({ admin }: { admin: User }) {
 
             if (data.ok) {
                 setMessage("User deactivate successfully");
-                setDeletingUser(false);
+                setDeactivatingUser(false);
                 await getUsers();
             }
 
@@ -45,7 +45,7 @@ export default function AdminUserHandling({ admin }: { admin: User }) {
                 throw new Error(data.message);
             }
         } catch(e) {
-            setDeletingUser(false);
+            setDeactivatingUser(false);
             setMessage("Could not deactivate user");
             console.error(e);
         }
@@ -145,7 +145,7 @@ export default function AdminUserHandling({ admin }: { admin: User }) {
                             <Table.Td>{user.storageUsage !== undefined ? `${user.storageUsage} MB` : <Loader h={"1rem"} size={"sm"} />}</Table.Td>
                             <Table.Td>{user.verified.toString()}</Table.Td>
                             <Table.Td>{user.deactivated ? "true" : "false"}</Table.Td>
-                            <Table.Td><Button onClick={() => deactivateUser(user.email)} disabled={deletingUser}>Deactivate</Button></Table.Td>
+                            <Table.Td><Button onClick={() => deactivateUser(user.email)} disabled={deactivatingUser}>Deactivate</Button></Table.Td>
                         </Table.Tr>
                     ))
                 }
