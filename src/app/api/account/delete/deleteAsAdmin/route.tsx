@@ -16,7 +16,7 @@ async function deleteAccountAsAdmin(req: NextRequest) {
 
     try {
         const user = await prisma.user.findUnique({
-            where: { email }, select: { id: true, role: true }
+            where: { email }
         });
 
         if (!user) {
@@ -35,6 +35,35 @@ async function deleteAccountAsAdmin(req: NextRequest) {
             return NextResponse.json({ message: "Can't find admin!", error: true, status: 401, ok: false }, { status: 401, statusText: "Can't find admin" });
         }
 
+        const boxes = await prisma.box.findMany({
+            where: { userId: user.id }
+        });
+
+        // Add user to userDeleted table
+        await prisma.userDeleted.create({
+            data: user
+        });
+
+        // Add boxes to boxDeleted table
+        for (const box of boxes) {
+            await prisma.boxDeleted.create({
+                data: box });
+        }
+
+        // Delete boxes
+        await prisma.box.deleteMany({
+            where: { userId: user.id }
+        });
+
+        await prisma.verificationToken.deleteMany({
+            where: { userId: user.id }
+        });
+
+        await prisma.deleteToken.delete({
+            where: { id: user.id }
+        });
+
+        // Delete user
         await prisma.user.delete({
             where: { id: user.id }
         });
