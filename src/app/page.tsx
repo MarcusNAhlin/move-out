@@ -4,10 +4,12 @@ import { signIn, useSession } from "next-auth/react";
 import LabelHolder from "@/components/LabelHolder";
 import { useEffect, useState } from "react";
 import { User } from "@/lib/types";
+import { redirect } from 'next/navigation';
 
 export default function Home() {
   const { data: session, status } = useSession();
   const [user, setUser] = useState<User | null>(null);
+  const [loading, isLoading] = useState<boolean>(true);
 
   useEffect(() => {
     async function getUser() {
@@ -22,6 +24,7 @@ export default function Home() {
 
         if (data.ok) {
           setUser(data.user);
+          isLoading(false);
 
           return user;
         }
@@ -30,6 +33,7 @@ export default function Home() {
           throw new Error(data.message)
         }
       } catch (e) {
+        isLoading(false);
         return console.error(e);
       }
     }
@@ -39,6 +43,14 @@ export default function Home() {
     }
 
   }, [session]);
+
+  useEffect(() => {
+    // If the user is not authenticated (logged in), redirect to the welcome page
+    if (!loading && status === "unauthenticated") {
+      redirect("/welcome");
+    }
+  }, [loading]);
+
 
   return (
     <>
@@ -59,7 +71,7 @@ export default function Home() {
           }}>
             <Title order={1}>MoveOut</Title>
               {
-                status === "loading" ? <>
+                loading ? <>
                     <Skeleton height={10} width={"15rem"} radius={"md"} mt={"sm"}  />
                     <Skeleton height={35} width={"8rem"} radius={"sm"} m={"auto"} mt={"sm"} mb={"sm"} />
                   </> : null
