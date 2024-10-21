@@ -1,4 +1,4 @@
-import { Button, Divider, Flex, Image, Text, Title } from "@mantine/core";
+import { Button, Flex, Image, Text, Title } from "@mantine/core";
 
 export default function welcomePage() {
 
