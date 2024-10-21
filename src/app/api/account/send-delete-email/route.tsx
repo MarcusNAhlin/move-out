@@ -46,6 +46,7 @@ async function sendDeleteMail(req: NextRequest) {
 
         return Response.json(data);
     } catch (error) {
+        console.log(error);
         return Response.json({ error }, { status: 500, statusText: "Internal server error" });
     }
 }

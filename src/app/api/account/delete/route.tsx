@@ -47,21 +47,49 @@ async function deleteAccount(req: NextRequest) {
             return NextResponse.json({ message: "Invalid token", error: true, status: 401, ok: false }, { status: 401, statusText: "Invalid token" });
         }
 
-        await prisma.deleteToken.delete({
-            where: { id: deleteToken.id }
+        const boxes = await prisma.box.findMany({
+            where: { userId: user.id }
+        });
+
+        // Add user to userDeleted table
+        await prisma.userDeleted.create({
+            data: user
+        });
+
+        // Add boxes to boxDeleted table
+        for (const box of boxes) {
+            await prisma.boxDeleted.create({
+                data: box });
+        }
+
+        // Delete boxes
+        await prisma.box.deleteMany({
+            where: { userId: user.id }
         });
 
         await prisma.verificationToken.deleteMany({
             where: { userId: user.id }
         });
 
-        await prisma.box.deleteMany({
-            where: { userId: user.id }
+        await prisma.deleteToken.delete({
+            where: { id: deleteToken.id }
         });
 
+        // Delete user
         await prisma.user.delete({
             where: { id: user.id }
         });
+
+        // // Add user to userDeleted table
+        // await prisma.userDeleted.create({
+        //     data: user
+        // });
+
+        // // Delete user
+        // await prisma.user.delete({
+        //     where: { id: user.id }
+        // });
+
 
         return NextResponse.json({ message: "Account deleted successfully", ok: true, status: 200 });
     } catch (error) {

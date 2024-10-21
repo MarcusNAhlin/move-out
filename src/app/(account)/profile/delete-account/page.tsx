@@ -7,11 +7,13 @@ import { useState } from "react";
 
 export default function DeleteAccount() {
     const { data: session, status } = useSession();
+    const [deletingAccount, setDeletingAccount] = useState<boolean>(false);
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
 
 
     async function handleDeleteAccount() {
+        setDeletingAccount(true);
 
         if (!session?.user?.email) {
             return;
@@ -30,11 +32,13 @@ export default function DeleteAccount() {
         if (data.id) {
             setError("");
             setMessage("Please verify with your email to delete account permanently");
+            setDeletingAccount(false);
         }
 
         if (!data.id) {
             setMessage("");
             setError("Account deletion failed. Please try again later");
+            setDeletingAccount(false);
         }
     }
 
@@ -70,7 +74,7 @@ export default function DeleteAccount() {
                 <Text>Clicking the button below will delete your account and ALL data will be LOST forever</Text>
                 <Text>Are you sure you want to delete your account?</Text>
                 <Text>{session?.user?.email}</Text>
-                <Button onClick={handleDeleteAccount} mt={"sm"} color="red" w={"12rem"}>Delete Account</Button>
+                <Button onClick={handleDeleteAccount} mt={"sm"} color="red" w={"12rem"} loading={deletingAccount}>Delete Account</Button>
                 {
                     message && <Alert variant="light" color="yellow" mt={"sm"}>{message}</Alert>
                 }

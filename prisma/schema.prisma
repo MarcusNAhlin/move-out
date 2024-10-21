@@ -73,3 +73,31 @@ enum LabelType {
   FRAGILE
   HAZARDOUS
 }
+
+model UserDeleted {
+  id                  Int           @id @default(autoincrement())
+  email               String        @unique
+  hash_pass           String
+  verified            Boolean       @default(false)
+  deactivated         DateTime?
+  lastAction          DateTime      @default(now())
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+  role                Role          @default(USER)
+  labels              BoxDeleted[]
+}
+
+model BoxDeleted {
+  id            String      @id @default(uuid())
+  userId        Int
+  title         String
+  type          LabelType   @default(NORMAL)
+  private       Boolean     @default(false)
+  pin           String?
+  text          String?
+  imageName     String?
+  soundName     String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  user          UserDeleted @relation(fields: [userId], references: [id])
+}
