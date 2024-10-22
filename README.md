@@ -20,12 +20,17 @@ Prisma (DB ORM), Neon (DB storage), Resend(email handler), Jest (testing) to mak
 Create new .env file using .env.example and
 fill in the blanks
 
-**DATABASE_URL** needs to point to a **PostgreSQL** server
+### Build
+
+```
+npm install
+npx prisma generate
+npx prisma migrate deploy
+```
 
 ### Run build server:
 
 ```
-npm install
 npm run build
 npm run start
 ```
@@ -33,19 +38,16 @@ npm run start
 ### Run development server:
 
 ```
-npm install
 npm run dev
 ```
 
 ### Run tests
 ```
-npm install
 npm run test
 ```
 
 ### Run linter
 ```
-npm install
 npm run lint
 ```
 
