@@ -26,9 +26,11 @@ export default function LabelAddPage() {
         initialValues: { boxTitle: '', labelDesign: '', boxTextContent: '', boxImage: null, labelPrivacy: false },
 
         validate: {
-            boxTitle: (value: string) => (value.length < 0 ? 'Title too short' :
-                                value.length > 50 ? 'Title too long' : null),
-            boxImage: (value: any) => (value && value.size > 10000000 ? 'Image too big, max 10 MB' : null),
+            boxTitle: (value: string) =>
+                value.length === 0 ? 'Title too short' :
+                value.length > 50 ? 'Title too long' : null,
+            boxImage: (value: File | null) =>
+                value && value.size > 10000000 ? 'Image too big, max 10 MB' : null,
         },
     });
 
@@ -48,9 +50,11 @@ export default function LabelAddPage() {
         formData.append('boxTextContent', values.boxTextContent);
         formData.append('boxPrivate', values.labelPrivacy);
 
-        if (values.boxImage) {
+        if (values.boxImage instanceof File) {
             formData.append('boxImage', values.boxImage);
         }
+
+        alert("Debugging testing: " + values.boxImage)
 
         if (blob) {
             formData.append('boxSound', blob);
@@ -59,7 +63,7 @@ export default function LabelAddPage() {
         try {
             const response: any = await fetch(`/api/box/add`, {
                 method: 'POST',
-                body: formData
+                body: formData,
             });
 
             if (!response.ok) {
@@ -177,6 +181,7 @@ export default function LabelAddPage() {
                         size="md"
                         label="Image"
                         placeholder="Click to add image"
+                        accept="image/*"
                         key={form.key('boxImage')}
                         {...form.getInputProps('boxImage')}
                     />
