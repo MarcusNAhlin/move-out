@@ -66,7 +66,7 @@ export default function LabelAddPage() {
                 throw new Error(response.error);
             }
 
-            if (!response?.error) {
+            if (response.ok) {
                 router.push("/");
                 router.refresh();
             }
