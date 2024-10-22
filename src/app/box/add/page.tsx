@@ -54,8 +54,6 @@ export default function LabelAddPage() {
             formData.append('boxImage', values.boxImage);
         }
 
-        alert("Debugging testing: " + values.boxImage)
-
         if (blob) {
             formData.append('boxSound', blob);
         }
