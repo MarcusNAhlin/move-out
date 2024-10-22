@@ -1,4 +1,5 @@
 import { Button, Skeleton } from "@mantine/core";
+import { IconPencil } from "@tabler/icons-react";
 
 export default function EditBoxBtn({ boxId }: { boxId: string | undefined}) {
 
@@ -13,9 +14,8 @@ export default function EditBoxBtn({ boxId }: { boxId: string | undefined}) {
             <Button
                 component="a"
                 href={`/box/edit/${boxId}`}
-                mt={"lg"}
-                m={"lg"}
-                w={"6rem"}
+                w={"10rem"}
+                leftSection={<IconPencil size={28} />}
                 style={{
 
                 }}

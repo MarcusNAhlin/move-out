@@ -237,12 +237,20 @@ export default function BoxPage() {
                 message && <Text>{message}</Text>
             }
 
+            <Flex
+                direction={"row"}
+                justify={"center"}
+                align={"center"}
+                gap={"md"}
+                mt={"lg"}
+            >
             {
                 boxOwner?.email === session?.user?.email && <EditBoxBtn boxId={box?.id} />
             }
             {
                 box && <Label label={box} printBtn hidden />
             }
+            </Flex>
 
             <Box mt={"lg"}>
                 <Title order={4}>Box Content</Title>

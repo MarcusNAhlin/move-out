@@ -104,7 +104,7 @@ export default function label({ label, width="20rem", printBtn=false, hidden=fal
                 printBtn &&
                 <Button
                     onClick={printLabel}
-                    mt={"sm"}
+                    w={"10rem"}
                     leftSection={<IconPrinter size={28} />}
                 >Print Label</Button>
             }
