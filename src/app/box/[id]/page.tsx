@@ -210,7 +210,7 @@ export default function BoxPage() {
             <>
             <BackBtn text="&larr;" href="/" icon />
             {
-                box?.title ? <Title order={1}>Box - {box?.title}</Title> : <Title order={1}>Box - </Title>
+                box?.title ? <Title order={1}>{box?.title}</Title> : <Title order={1}>Box</Title>
             }
 
             {
@@ -255,12 +255,20 @@ export default function BoxPage() {
             <Box mt={"lg"}>
                 <Title order={4}>Box Content</Title>
 
-
+                <Box
+                    style={{
+                        border: "2px solid white",
+                        borderRadius: "0.2rem",
+                        marginTop: "1rem",
+                        padding: "1rem",
+                    }}
+                >
                 {
                     boxText && boxText.map((text, index) => {
                         return <Text key={index}>{text}</Text>
                     })
                 }
+                </Box>
             </Box>
             {
                 (image && box?.imageName) && <Image src={image} maw={"90vw"} w={"600px"} mt={"lg"} alt="Box content image" />
