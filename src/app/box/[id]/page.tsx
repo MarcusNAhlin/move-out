@@ -241,7 +241,7 @@ export default function BoxPage() {
                 boxOwner?.email === session?.user?.email && <EditBoxBtn boxId={box?.id} />
             }
             {
-                box && <Label label={box} printBtn />
+                box && <Label label={box} printBtn hidden />
             }
 
             <Box mt={"lg"}>

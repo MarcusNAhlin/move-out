@@ -1,7 +1,8 @@
 import { Button, Text, Title } from "@mantine/core";
+import { IconPrinter } from '@tabler/icons-react';
 import QRCode from "@/components/QRCode";
 
-export default function label({ label, width="20rem", printBtn=false }: any) {
+export default function label({ label, width="20rem", printBtn=false, hidden=false }: any) {
 
     if (!label) {
         return;
@@ -70,7 +71,8 @@ export default function label({ label, width="20rem", printBtn=false }: any) {
                 style={{
                     width: width,
                     border: `8px solid ${color}`,
-                    background: "white"
+                    background: "white",
+                    display: hidden ? "none" : "block",
                 }}
                 id="label"
             >
@@ -100,7 +102,11 @@ export default function label({ label, width="20rem", printBtn=false }: any) {
             </div>
             {
                 printBtn &&
-                <Button onClick={printLabel} mt={"sm"}>Print</Button>
+                <Button
+                    onClick={printLabel}
+                    mt={"sm"}
+                    leftSection={<IconPrinter size={28} />}
+                >Print Label</Button>
             }
         </>
     )
