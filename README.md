@@ -2,7 +2,17 @@
 
 MoveOut is a website made with NextJS
 together with Mantine (UI),
-Prisma (DB ORM), Neon (DB storage) Jest (testing) to make keeping track of content in moving boxes easier!
+Prisma (DB ORM), Neon (DB storage), Resend(email handler), Jest (testing) to make keeping track of content in moving boxes easier!
+
+## Prerequisites
+### Software
+- node \>v16.8.0
+- npm \>v7.21.0
+
+### Accounts
+- Access to S3 Bucket account
+- Access to Neon account
+- Access to Resend account
 
 ## Usage
 
@@ -15,21 +25,29 @@ fill in the blanks
 ### Run build server:
 
 ```
+npm install
 npm run build
+npm run start
 ```
 
 ### Run development server:
 
 ```
+npm install
 npm run dev
 ```
 
 ### Run tests
 ```
+npm install
 npm run test
 ```
 
 ### Run linter
 ```
+npm install
 npm run lint
 ```
+
+## License
+MIT License (LICENSE.txt)
