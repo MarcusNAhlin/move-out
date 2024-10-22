@@ -79,6 +79,12 @@ export default function LabelAddPage() {
     // Start media recorder
     // https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder
     async function startMediaRecorder() {
+        if (!window.MediaRecorder) {
+            setMessage("MediaRecorder is not supported on your device. Try another browser.");
+        }
+
+        setMessage("MediaRecorder is supported on your device");
+
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
             const recorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
