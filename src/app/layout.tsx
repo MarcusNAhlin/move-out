@@ -50,7 +50,7 @@ export default function RootLayout({
               minHeight: "100vh",
               display: "flex",
               flexDirection: "column",
-              marginTop: "10vh",
+              // marginTop: "10vh",
               alignItems: "center",
               textAlign: "center",
               overflowX: "hidden",

@@ -13,6 +13,10 @@ export default function Home() {
 
   useEffect(() => {
     async function getUser() {
+      if (!session?.user?.email) {
+        return;
+      }
+
       try {
         const user = await fetch(`/api/account/getUser?email=${session?.user?.email}`, {
           method: "GET",

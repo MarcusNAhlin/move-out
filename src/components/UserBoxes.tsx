@@ -38,7 +38,7 @@ export default function UserBoxes() {
 
     return (
         <>
-        <Flex gap={"lg"} mt={"lg"} wrap={"wrap"} w={"100%"} justify={"center"}>
+        <Flex gap={"lg"} mt={"lg"} wrap={"wrap"} w={"100%"} justify={"center"} style={{ zIndex: "3"}}>
         {
             labels ? labels.map((label) => {
                 return (
