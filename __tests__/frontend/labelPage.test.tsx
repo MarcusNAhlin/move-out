@@ -53,6 +53,6 @@ describe('Label Page', () => {
 
 
         // Assert
-        expect(await screen.getByRole("link", { name: "+"})).toBeInTheDocument();
+        expect(await screen.getByRole("link", { name: "Add Box"})).toBeInTheDocument();
     });
 });
