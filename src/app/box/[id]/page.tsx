@@ -271,7 +271,7 @@ export default function BoxPage() {
                 </Box>
             </Box>
             {
-                (image && box?.imageName) && <Image src={image} maw={"90vw"} w={"600px"} mt={"lg"} alt="Box content image" />
+                (image && box?.imageName) && <Image src={image} maw={"90vw"} w={"600px"} mt={"lg"} alt="Box content image" loading='lazy' />
             }
             {
                 (sound && box?.soundName) && <>
