@@ -43,6 +43,36 @@ export default function BoxEditPage() {
         },
     });
 
+    async function handleBoxDelete() {
+        setAddingBox(true);
+
+        if (!session?.user?.email) {
+            setMessage("You need to be logged in to delete a box");
+            setAddingBox(false);
+            return;
+        }
+
+        try {
+            const res = await fetch(`/api/box/delete?boxId=${id}`, {
+                method: "DELETE",
+            });
+
+            const data = await res.json();
+
+            if (data.error) {
+                throw new Error(data.message);
+            }
+
+            if (!data.error) {
+                router.push(`/`);
+                router.refresh();
+            }
+        } catch (e: any) {
+            setMessage(e);
+            setAddingBox(false);
+        }
+    }
+
     async function handleFormSubmit(values: any) {
         setAddingBox(true);
 
@@ -329,6 +359,7 @@ export default function BoxEditPage() {
                         </Alert> : <></>
                     }
                     <Group justify="flex-end" mt="md">
+                        <Button onClick={handleBoxDelete} color="red" loading={addingBox} disabled={!boxData}>Delete Box</Button>
                         <Button type="submit" loading={addingBox} disabled={!boxData}>Apply Changes</Button>
                     </Group>
                 </form>
