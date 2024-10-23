@@ -41,7 +41,8 @@ export default function labelHolder({ status }: { status: string }) {
                     filter: "brightness(0.5)",
                     minHeight: "30vh",
                     width: "100vw",
-                    left: "0"
+                    left: "0",
+                    pointerEvents: "none",
                 }}
             />
             </Flex>

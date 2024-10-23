@@ -36,7 +36,8 @@ export default function welcomePage() {
                 left: "0",
                 zIndex: "-1",
                 filter: "brightness(0.25)",
-                minHeight: "500px"
+                minHeight: "500px",
+                pointerEvents: "none",
             }}
             src={"/house-moving-illustration.png"}
         ></Image>
