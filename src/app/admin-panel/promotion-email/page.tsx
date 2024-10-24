@@ -83,7 +83,7 @@ export default function AdminPanel() {
                 throw new Error(data.message);
             }
         } catch (e: any) {
-            setMessage(e);
+            setMessage(e.message);
             setSendingEmail(false);
         }
     }

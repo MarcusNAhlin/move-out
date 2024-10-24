@@ -7,11 +7,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 async function sendPromotionEmail(req: NextRequest) {
     const prisma = new PrismaClient();
 
-    const { from, subject, mailContent } = await req.json();
-
-    if (!from) {
-        return NextResponse.json({ message: 'Missing from-user!', error: true, status: 401, ok: false });
-    }
+    const { subject, mailContent } = await req.json();
 
     if (!subject) {
         return NextResponse.json({ message: 'Missing subject!', error: true, status: 401, ok: false });

@@ -33,6 +33,8 @@ async function sendDeleteMail(req: NextRequest) {
             }
         });
 
+        console.log(process.env.FROM_EMAIL);
+
         const { data, error } = await resend.emails.send({
             from: `${process.env.FROM_EMAIL}`,
             to: [email],
