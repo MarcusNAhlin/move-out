@@ -28,7 +28,6 @@ export default function Home() {
 
         if (data.ok) {
           setUser(data.user);
-          isLoading(false);
 
           return user;
         }
@@ -37,13 +36,13 @@ export default function Home() {
           throw new Error(data.message)
         }
       } catch (e) {
-        isLoading(false);
         return console.error(e);
       }
     }
 
     if (!user) {
       getUser();
+      isLoading(false);
     }
 
   }, [session]);
@@ -53,7 +52,7 @@ export default function Home() {
     if (!loading && status === "unauthenticated") {
       redirect("/welcome");
     }
-  }, [loading]);
+  }, [loading, status]);
 
 
   return (
