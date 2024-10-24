@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
-    "test:watch": "jest --watchAll"
+    "test:watch": "jest --watchAll",
+    "vercel-build": "prisma generate && prisma migrate deploy && npm run build"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.670.0",
