@@ -15,6 +15,8 @@ const s3 = new S3Client({
     },
 });
 
+export const revalidate = 0;
+
 async function getStorageUsage(req: NextRequest) {
     let id: string | number | null = req.nextUrl.searchParams.get("id") as string;
 

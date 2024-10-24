@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 
+export const revalidate = 0;
+
 async function getLabel(req: NextRequest) {
     const prisma = new PrismaClient();
 

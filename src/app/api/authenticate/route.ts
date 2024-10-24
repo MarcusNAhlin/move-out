@@ -4,6 +4,8 @@ import { PrismaClient } from "@prisma/client";
 // const bcrypt = require("bcrypt");
 import bcrypt from "bcrypt";
 
+export const revalidate = 0;
+
 async function authenticate(req: NextRequest) {
     const prisma = new PrismaClient();
     const { email, password } = await req.json();

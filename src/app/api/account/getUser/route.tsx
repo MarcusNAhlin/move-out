@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getUserByEmail } from "@/database_calls/user";
 
+export const revalidate = 0;
+
 async function getUser(req: NextRequest) {
     const email: string | null = req.nextUrl.searchParams.get("email") as string;
 
