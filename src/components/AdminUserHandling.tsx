@@ -33,12 +33,12 @@ export default function AdminUserHandling({ admin }: { admin: User }) {
 
             const data = await response.json();
 
-            console.log(data);
-
             if (data.ok) {
-                setMessage("User deactivate successfully");
+                setMessage("User updated successfully");
                 setDeactivatingUser(false);
+
                 await getUsers();
+                console.log(users);
             }
 
             if (!data.ok) {
@@ -46,7 +46,7 @@ export default function AdminUserHandling({ admin }: { admin: User }) {
             }
         } catch(e) {
             setDeactivatingUser(false);
-            setMessage("Could not deactivate user");
+            setMessage("Could not update user");
             console.error(e);
         }
     }
@@ -133,7 +133,7 @@ export default function AdminUserHandling({ admin }: { admin: User }) {
                     <Table.Th>Storage Usage</Table.Th>
                     <Table.Th>Verified</Table.Th>
                     <Table.Th>Deactivated</Table.Th>
-                    <Table.Th>Deactivate/Activate User</Table.Th>
+                    <Table.Th>Activate / Deactivate User</Table.Th>
                     </Table.Tr>
                 </Table.Thead>
                 <Table.Tbody>
@@ -146,7 +146,7 @@ export default function AdminUserHandling({ admin }: { admin: User }) {
                             <Table.Td>{user.verified.toString()}</Table.Td>
                             <Table.Td>{user.deactivated ? "true" : "false"}</Table.Td>
                             <Table.Td><Button onClick={() => deactivateUser(user.email)} disabled={deactivatingUser}>
-                                Deactivate/Activate
+                                {user.deactivated ? "Activate" : "Deactivate"}
                             </Button></Table.Td>
                         </Table.Tr>
                     ))
