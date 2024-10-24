@@ -77,9 +77,13 @@ export default function AdminUserHandling({ admin }: { admin: User }) {
     }
 
     useEffect(() => {
-        if (admin.role === "ADMIN") {
-            getUsers();
+        async function getData() {
+            if (admin.role === "ADMIN") {
+                await getUsers();
+            }
         }
+
+        getData();
     }, [admin.role]);
 
     useEffect(() => {
