@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { getUsers as getUsersFromDB } from "@/database_calls/user";
 
+export const revalidate = 0;
+
 async function getUsers() {
     try {
         const users = await getUsersFromDB();
