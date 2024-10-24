@@ -50,10 +50,9 @@ export default function AdminPanel() {
 
     const form = useForm({
         mode: 'uncontrolled',
-            initialValues: { from: '', subject: '', mailContent: '',},
+            initialValues: { subject: '', mailContent: '',},
 
             validate: {
-                from: (value) => (value.length < 1 ? 'From-name too short' : null),
                 subject: (value) => (value.length < 1 ? 'Subject too short' : null),
                 mailContent: (value) => (value.length < 1 ? 'Email content too short' : null)
             },
@@ -62,7 +61,7 @@ export default function AdminPanel() {
     async function handleFormSubmit() {
         setSendingEmail(true);
 
-        const { from, subject, mailContent } = form.getValues();
+        const { subject, mailContent } = form.getValues();
 
         try {
             const response: any = await fetch("/api/admin/sendPromotionEmail", {
@@ -70,7 +69,7 @@ export default function AdminPanel() {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ from, subject, mailContent }),
+                body: JSON.stringify({ subject, mailContent }),
             });
 
             const data = await response.json();
@@ -112,14 +111,6 @@ export default function AdminPanel() {
                     maxWidth: "500px",
                 }}
             >
-                <TextInput
-                    mt={"sm"}
-                    label={"From:"}
-                    placeholder="Name <name@moveout>"
-                    type="text"
-                    key={form.key('from')}
-                    {...form.getInputProps('from')}
-                />
                 <TextInput
                     mt={"sm"}
                     label={"Subject:"}

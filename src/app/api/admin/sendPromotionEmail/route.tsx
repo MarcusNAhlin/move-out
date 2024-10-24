@@ -38,7 +38,7 @@ async function sendPromotionEmail(req: NextRequest) {
             numberOfEmails++;
 
             const { error } = await resend.emails.send({
-                from: from,
+                from: `${process.env.FROM_EMAIL}`,
                 to: [user.email],
                 subject: subject,
                 html: mailContent,
