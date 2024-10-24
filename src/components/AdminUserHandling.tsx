@@ -57,7 +57,8 @@ export default function AdminUserHandling({ admin }: { admin: User }) {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
-                }
+                },
+                cache: "no-cache"
             });
 
             const data = await users.json();
