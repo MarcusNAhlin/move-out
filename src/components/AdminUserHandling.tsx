@@ -133,7 +133,7 @@ export default function AdminUserHandling({ admin }: { admin: User }) {
                     <Table.Th>Storage Usage</Table.Th>
                     <Table.Th>Verified</Table.Th>
                     <Table.Th>Deactivated</Table.Th>
-                    <Table.Th>Deactivate User</Table.Th>
+                    <Table.Th>Deactivate/Activate User</Table.Th>
                     </Table.Tr>
                 </Table.Thead>
                 <Table.Tbody>
@@ -145,7 +145,9 @@ export default function AdminUserHandling({ admin }: { admin: User }) {
                             <Table.Td>{user.storageUsage !== undefined ? `${user.storageUsage} MB` : <Loader h={"1rem"} size={"sm"} />}</Table.Td>
                             <Table.Td>{user.verified.toString()}</Table.Td>
                             <Table.Td>{user.deactivated ? "true" : "false"}</Table.Td>
-                            <Table.Td><Button onClick={() => deactivateUser(user.email)} disabled={deactivatingUser}>Deactivate</Button></Table.Td>
+                            <Table.Td><Button onClick={() => deactivateUser(user.email)} disabled={deactivatingUser}>
+                                Deactivate/Activate
+                            </Button></Table.Td>
                         </Table.Tr>
                     ))
                 }

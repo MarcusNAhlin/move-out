@@ -10,14 +10,34 @@ async function deactivateAccount(req: NextRequest) {
     }
 
     try {
-        await prisma.user.update({
+        const user = await prisma.user.findUnique({
             where: {
                 email
             },
-            data: {
-                deactivated: new Date()
+            select: {
+                deactivated: true
             }
         });
+
+        if (user?.deactivated) {
+            await prisma.user.update({
+                where: {
+                    email
+                },
+                data: {
+                    deactivated: null
+                }
+            });
+        } else {
+            await prisma.user.update({
+                where: {
+                    email
+                },
+                data: {
+                    deactivated: new Date()
+                }
+            });
+        }
 
         return NextResponse.json({ message: "Account deactivated successfully", ok: true, status: 200 });
     } catch (error) {

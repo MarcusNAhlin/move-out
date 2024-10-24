@@ -30,6 +30,10 @@ async function getBoxOwner(req: NextRequest) {
             }
         });
 
+        if (boxOwner?.deactivated) {
+            return NextResponse.json({ message: "Box owners account is deactivated!", error: true, status: 401, ok: false }, { status: 401, statusText: "Box owners account is deactivated!" });
+        }
+
         return NextResponse.json({ message: "Found box owner!", error: false, status: 200, ok: true, boxOwner: boxOwner });
     } catch (e) {
         return NextResponse.json({ message: "Error finding box!", error: true, status: 401, ok: false });

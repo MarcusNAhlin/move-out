@@ -110,12 +110,16 @@ export default function BoxPage() {
 
                 const data = await response.json();
 
+                if (!data.ok) {
+                    throw new Error(data.message);
+                }
+
                 setBoxOwner(data.boxOwner);
 
                 return data as User;
             } catch (e: any) {
                 console.error(e);
-                setMessage(e);
+                setMessage(e.message);
 
                 return e;
             }
@@ -295,7 +299,9 @@ export default function BoxPage() {
             }
 
             {
-                message && <Text>{message}</Text>
+                message && <Alert variant="light" color="red">
+                    {message}
+                </Alert>
             }
 
             <Flex
