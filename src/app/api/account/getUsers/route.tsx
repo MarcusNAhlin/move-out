@@ -5,7 +5,11 @@ async function getUsers() {
     try {
         const users = await getUsersFromDB();
 
-        return NextResponse.json({ message: "User found!", ok: true, status: 200, users: users });
+        const response = NextResponse.json({ message: "User found!", ok: true, status: 200, users: users });
+        response.headers.set('Cache-Control', 'no-store'); // Disable caching
+
+
+        return response;
     } catch (error) {
         console.error(error);
 
