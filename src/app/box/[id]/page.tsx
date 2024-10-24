@@ -10,11 +10,11 @@ import { useSession } from 'next-auth/react';
 import { User } from '@/lib/types';
 import EditBoxBtn from '@/components/EditBoxBtn';
 import { useForm } from '@mantine/form';
-// import getS3Link from '@/lib/getS3Link';
 
 export default function BoxPage() {
     const router = useParams();
     const [loading, setLoading] = useState(true);
+    const [boxInfo, setBoxInfo] = useState<BoxInterface>();
     const [box, setBox] = useState<BoxInterface>();
     const [message, setMessage] = useState("");
 
@@ -72,17 +72,19 @@ export default function BoxPage() {
     }
 
     useEffect(() => {
-        async function getBox() {
+        if (!id) {
+            return;
+        }
+
+        async function getBoxInfo() {
             try {
-                const response = await fetch(`/api/box/get/getSpecific?boxId=${id}`, {
+                const response = await fetch(`/api/box/get/getSpecificInfo?boxId=${id}`, {
                     method: "GET",
                 });
 
                 const data = await response.json();
 
-                setBox(data.box);
-
-                getBoxOwner(data.box.id);
+                setBoxInfo(data.box);
 
                 setLoading(false);
             } catch (e: any) {
@@ -90,6 +92,14 @@ export default function BoxPage() {
                 setMessage(e);
                 setLoading(false);
             }
+        }
+
+        getBoxInfo();
+    }, [id]);
+
+    useEffect(() => {
+        if (!boxInfo) {
+            return;
         }
 
         async function getBoxOwner(boxId: string) {
@@ -111,10 +121,62 @@ export default function BoxPage() {
             }
         }
 
-        getBox();
-    }, [id]);
+        getBoxOwner(boxInfo.id);
+
+    }, [boxInfo]);
 
     useEffect(() => {
+        if (!boxOwner) {
+            return;
+        }
+
+        if (boxOwner.email === session?.user?.email || !boxInfo?.private) {
+            setPinVerified(true);
+        }
+
+        if (boxOwner.email !== session?.user?.email && boxInfo?.private) {
+            setPinVerified(false);
+        }
+
+    }, [boxOwner]);
+
+    useEffect(() => {
+        async function getBox() {
+            try {
+                const response = await fetch(`/api/box/get/getSpecific?boxId=${id}`, {
+                    method: "GET",
+                });
+
+                const data = await response.json();
+
+                setBox(data.box);
+
+                // getBoxOwner(data.box.id);
+
+                setLoading(false);
+            } catch (e: any) {
+                console.error(e);
+                setMessage(e);
+                setLoading(false);
+            }
+        }
+
+        if (pinVerified) {
+            getBox();
+            setLoading(false);
+        }
+
+        if (!pinVerified) {
+            setLoading(false);
+        }
+
+    }, [pinVerified]);
+
+    useEffect(() => {
+        if (!box) {
+            return;
+        }
+
         async function getBoxImage() {
             if (image) {
                 return;
@@ -157,7 +219,6 @@ export default function BoxPage() {
             }
         }
 
-
         getBoxImage();
         getBoxSound();
     }, [box]);
@@ -177,7 +238,7 @@ export default function BoxPage() {
     }
 
 
-    if (box?.private && !pinVerified && session?.user?.email !== boxOwner?.email) {
+    if (boxInfo?.private && !pinVerified && session?.user?.email !== boxOwner?.email) {
         return (
             <>
                 <BackBtn text="&larr;" href="/" icon />
@@ -205,7 +266,7 @@ export default function BoxPage() {
         );
     }
 
-    if (session?.user?.email === boxOwner?.email || !box?.private || pinVerified) {
+    if (session?.user?.email === boxOwner?.email || !boxInfo?.private || pinVerified) {
         return (
             <>
             <BackBtn text="&larr;" href="/" icon />
