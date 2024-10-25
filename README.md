@@ -14,6 +14,10 @@ Prisma (DB ORM), Neon (DB storage), Resend(email handler), Jest (testing) to mak
 - Access to Neon account
 - Access to Resend account
 
+### Other
+- Domain to send mail via Resend (in build)
+    - Configured and verified visa Resend
+
 ## Usage
 
 ### Environment variables
