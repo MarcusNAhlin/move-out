@@ -4,6 +4,8 @@ MoveOut is a website made with NextJS
 together with Mantine (UI),
 Prisma (DB ORM), Neon (DB storage), Resend(email handler), Jest (testing) to make keeping track of content in moving boxes easier!
 
+![Image of app](page.png)
+
 ## Prerequisites
 ### Software
 - node \>v16.8.0
@@ -16,7 +18,7 @@ Prisma (DB ORM), Neon (DB storage), Resend(email handler), Jest (testing) to mak
 
 ### Other
 - Domain to send mail via Resend (in build)
-    - Configured and verified visa Resend
+    - Configured and verified via Resend
 
 ## Usage
 
